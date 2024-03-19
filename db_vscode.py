@@ -28,7 +28,7 @@ Session = sessionmaker(bind=db_engine)
 db = Session()
 
 # Query
-query = db.query(UserInfo).filter(UserInfo.balance == 20)
+query = db.query(UserInfo).filter(UserInfo.balance == 20).all()
 
 if query:
         print(query)
