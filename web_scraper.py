@@ -1,12 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 # Constant definitions
-NHL_URL = 'https://www.hockey-reference.com/boxscores/?year=2024&month=03&day=22'
 
 
 # Main: scrape NHL web scores
 def main() -> int:
+
+    NHL_URL = (f'https://www.hockey-reference.com/boxscores/'
+               f'?year={datetime.now().year}&month={datetime.now().month}&day={datetime.now().day - 2}')
     # Request scores page & build soup
     nhl_scores_page = requests.get(NHL_URL)
     soup = BeautifulSoup(nhl_scores_page.content, "html.parser")
@@ -33,6 +36,7 @@ def main() -> int:
         winning_scores.append(int(game_winner[1].get_text()))
 
     return 0
+
 
 if __name__ == "__main__":
     main()
