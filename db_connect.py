@@ -1,5 +1,5 @@
 from sqlalchemy import (create_engine, MetaData, Table,
-                        Column, String, Float, JSON, and_,
+                        Column, String, Float, JSON,
                         insert, update)
 
 
@@ -96,6 +96,13 @@ class ConnectDb:
         return 2
 
     def edit_row(self, username, field_to_update, updated_value) -> int:
+        """
+        Edits the desired column of the user given
+        :param username:
+        :param field_to_update:
+        :param updated_value:
+        :return: int 0 if sucessfull
+        """
         # Check if user exits
         if not self.does_user_exist(username):
             return 1
