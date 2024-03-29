@@ -1,6 +1,6 @@
 from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON, and_,
-                        insert)
+                        insert, update)
 
 
 class ConnectDb:
@@ -52,9 +52,30 @@ class ConnectDb:
         except:
             return None
 
-    def add_new_user(self, username, password, balance=20, active_bets=None, resolved_bets=None):
+    def does_user_exist(self, username) -> bool:
+        """
+        Checks if a given username exists in the db
+        :param username: str
+        :return: bool
+        """
+        rows = self.get_row_by_user(username)
+        if (rows != None):
+            return True
+        return False
 
+    def add_new_user(self, username, password, balance=20, active_bets=None, resolved_bets=None) -> int:
+        """
+        :param username:
+        :param password:
+        :param balance:
+        :param active_bets:
+        :param resolved_bets:
+        :return: 0 if the user is added successfully, 1 if the user already exists,
+        2 if user doesn't exist but is not added
+        """
         # Check that username does not already exist
+        if not self.does_user_exist(username):
+            return 1
 
         # Create a new user object with the provided data
         new_user = insert(self.user_info).values(
@@ -70,7 +91,20 @@ class ConnectDb:
         self.connection.commit()
 
         # Check if user was added
-        rows = self.get_row_by_user(username)
-        if (rows!=None):
-            return True
-        return False
+        if self.does_user_exist(username):
+            return 0
+        return 2
+
+    def edit_row(self, username, field_to_update, updated_value) -> int:
+        # Check if user exits
+        if not self.does_user_exist(username):
+            return 1
+
+        upd = update(self.user_info)
+        item_to_update = upd.values({field_to_update: updated_value})
+        update_query = item_to_update.where(self.user_info.c.username == username)
+        self.connection.execute(update_query)
+        self.connection.commit()
+
+        return 0
+
