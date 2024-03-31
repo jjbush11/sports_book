@@ -1,45 +1,38 @@
-from sqlalchemy import create_engine, MetaData, Table, Column, String, Float, JSON, and_
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from db_connect import ConnectDb
+from bet import Bet
 
-ssl_args = {'ssl': {'ca': '/etc/pki/tls/certs/webdb-cacert.pem'}}
-db_engine = create_engine(
-    'mysql://jjbush:Madden25jjbush@webdb.uvm.edu/JJBUSH_sports_book',
-    connect_args=ssl_args)
-# Session = sessionmaker(bind=db_engine)
-# db = Session()
+db = ConnectDb()
 
+user = db.get_row_by_user('jamesBush')
 
-Base = declarative_base()
+# print(user.username)
+# print(user.password)
+# print(user.balance)
+# print(user.active_bets)
+# print(user.resolved_bets)
+# print("")
+#
+# print(user.active_bets[0]['return'])
 
+# print(db.add_new_user('sma', 'smaPass'))
 
-class UserInfo(Base):
-    __tablename__ = 'user_info'
-
-    username = Column(String(30), primary_key=True)
-    password = Column(String(30))
-    balance = Column(Float)
-    active_bets = Column(JSON)
-    resolved_bets = Column(JSON)
+# print(db.edit_row('sma', 'balance', 44))
+# print(db.get_row_by_user('sma'))
 
 
-# Create session
-Session = sessionmaker(bind=db_engine)
-db = Session()
+bet = Bet(id=1, win=0, odds=1000, wager=10)
 
-# Query
-query = db.query(UserInfo).filter(UserInfo.balance == 20)
+bet_to_add = bet.bet_to_json()
+# print(bet_to_add)
 
-if query:
-        print(query)
-        # print("pass " + query.password)
+active_bets_edited = []
+active_bets = user.active_bets
 
-# with db_engine.connect() as connection:
-#     print("connect")
-#     # result = connection.execute(query)
-#     # rows = result.fetchall()
-# for user in query:
-#     print(f"Username: {user.username}, Balance: {user.balance}")
+for bet in active_bets:
+    active_bets_edited.append(bet)
 
-# Close the session
-db.close()
+active_bets_edited.append(bet_to_add)
+
+print(active_bets_edited)
+db.edit_row('jamesBush', 'active_bets', active_bets_edited)
+
