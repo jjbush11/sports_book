@@ -13,23 +13,26 @@ class ConnectDb:
     user_info = 'empty table'
 
     def __init__(self):
-        # Create engine and connect
-        db_engine = create_engine(self.db_url)
-        self.connection = db_engine.connect()
+        try:
+            # Create engine and connect
+            db_engine = create_engine(self.db_url)
+            self.connection = db_engine.connect()
 
-        # Define metadata
-        metadata = MetaData()
+            # Define metadata
+            metadata = MetaData()
 
-        # Set up table framework
-        self.user_info = Table(
-            'user_info',
-            metadata,
-            Column('username', String(30), primary_key=True),
-            Column('password', String(30)),
-            Column('balance', Float),
-            Column('active_bets', JSON),
-            Column('resolved_bets', JSON)
-        )
+            # Set up table framework
+            self.user_info = Table(
+                'user_info',
+                metadata,
+                Column('username', String(30), primary_key=True),
+                Column('password', String(30)),
+                Column('balance', Float),
+                Column('active_bets', JSON),
+                Column('resolved_bets', JSON)
+            )
+        except Exception as e:
+            print('ERROR: Cannot connect to database with error: '+str(e))
 
     # Closing connection
     def __del__(self):
@@ -101,7 +104,7 @@ class ConnectDb:
         :param username:
         :param field_to_update:
         :param updated_value:
-        :return: int 0 if sucessfull
+        :return: int 0 if sucessful
         """
         # Check if user exits
         if not self.does_user_exist(username):
