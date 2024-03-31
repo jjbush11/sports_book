@@ -1,11 +1,11 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
 
-class MainWindow(QMainWindow):
+class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("My App")
+        self.setWindowTitle("Login Page")
 
         self.button = QPushButton("Press Me!")
         self.button.clicked.connect(self.the_button_was_clicked)
@@ -20,8 +20,6 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("My Clicked App")
 
 app = QApplication(sys.argv)
-
-window = MainWindow()
+window = LoginWindow()
 window.show()
-
 app.exec()
