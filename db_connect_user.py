@@ -3,7 +3,7 @@ from sqlalchemy import (create_engine, MetaData, Table,
                         insert, update)
 
 
-class ConnectDb:
+class ConnectDbUser:
     """
     ConnectDb - forms connection to database.
     """
