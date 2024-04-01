@@ -3,15 +3,21 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 # Constant definitions
+NHL_SCORES_URL = (f'https://www.baseball-reference.com/boxscores/'
+           f'?year={datetime.now().year}&month={datetime.now().month}&day={datetime.now().day - 1}')
+NHL_MONEYLINE_URL = ("https://vegas-odds.com/nhl/odds/")
 
 
-# Main: scrape NHL web scores
 def main() -> int:
+    # grab_nhl_scores()
+    grab_nhl_moneylines()
+    return 0
 
-    NHL_URL = (f'https://www.hockey-reference.com/boxscores/'
-               f'?year={datetime.now().year}&month={datetime.now().month}&day={datetime.now().day - 2}')
+
+# Scrape nhl web scores
+def grab_nhl_scores():
     # Request scores page & build soup
-    nhl_scores_page = requests.get(NHL_URL)
+    nhl_scores_page = requests.get(NHL_SCORES_URL)
     soup = BeautifulSoup(nhl_scores_page.content, "html.parser")
 
     # Lists for winning, losing teams & scores
@@ -35,7 +41,32 @@ def main() -> int:
         losing_scores.append(int(game_loser[1].get_text()))
         winning_scores.append(int(game_winner[1].get_text()))
 
-    return 0
+    i = 0
+
+
+def grab_nhl_moneylines():
+    # Create soup, find table bodies containing odds, tables
+    nhl_moneyline_page = requests.get(NHL_MONEYLINE_URL)
+    soup = BeautifulSoup(nhl_moneyline_page.content, "html.parser")
+    moneyline_entries = soup.find_all("div", class_="table-responsive oddstablev2")[0].find("table").find_all("tbody")[1:]
+    away_teams = list()
+    away_odds = list()
+    home_teams = list()
+    home_odds = list()
+
+    for entry in moneyline_entries:
+        # Find home & away entries containing team names, odds
+        away_entry = entry.find_all("tr")[0]
+        home_entry = entry.find_all("tr")[1]
+
+        # Get team name text
+        away_teams.append(away_entry.find("th").get_text())
+        home_teams.append(home_entry.find("th").get_text())
+
+        away_odds.append(int(away_entry.find("td").get_text()))
+        home_odds.append(int(home_entry.find("td").get_text()))
+
+    i = 0
 
 
 if __name__ == "__main__":
