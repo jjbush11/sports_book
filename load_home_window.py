@@ -38,9 +38,7 @@ class nhl_Window(QMainWindow):
         sys.exit(nhl_app.exec())
 
         # TODO: James, insert database connection stuff here. I'm not sure if this is where it will go in the final
-        #  product, but just insert it here for now and I will move it later if I need to. If you have any trouble with
-        #   anything, please lmk, I'm happy to help. Or even if you wanna just tell me what I'm supposed to do to link it
-        #   to the DB and I can do it myself too if you are having issues.
+        #  product, but just insert it here for now and I will move it later if I need to.
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
