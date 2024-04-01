@@ -10,12 +10,18 @@ class home_UI (QMainWindow):
         self.initialize_home_window()
 
     def initialize_home_window(self):
-        app = QApplication([])
         home_window = QMainWindow()
         ui = Ui_MainWindow()
         ui.setupUi(home_window)
         home_window.show()
         app.exec()
+
+        ui.pushButton_6.clicked.connect(self.nhl_clicked())
+
+    def nhl_clicked(self):
+        self.nhl_window = nhl_Window()
+        self.window.show()
+        self.close()
 
 
 class nhl_Window(QMainWindow):
