@@ -1,6 +1,7 @@
 from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
-                        insert, update, Date, Integer)
+                        insert, update, Date, Integer,
+                        Boolean, Time)
 
 
 class ConnectDbMatch:
@@ -41,8 +42,13 @@ class ConnectDbMatch:
                 Column('id', String(30), primary_key=True),
                 Column('team1', String(30)),
                 Column('team1_odds', Integer),
+                Column('team1_score', Integer),
                 Column('team2', String(30)),
-                Column('team2_odds', Integer)
+                Column('team2_odds', Integer),
+                Column('team2_score', Integer),
+                Column('is_settled', Boolean),
+                Column('date', Date),
+                Column('time', Time)
             )
 
         except Exception as e:
