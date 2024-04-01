@@ -53,6 +53,7 @@ def grab_nhl_moneylines():
     away_odds = list()
     home_teams = list()
     home_odds = list()
+    datetimes = list()
 
     for entry in moneyline_entries:
         # Find home & away entries containing team names, odds
@@ -63,8 +64,18 @@ def grab_nhl_moneylines():
         away_teams.append(away_entry.find("th").get_text())
         home_teams.append(home_entry.find("th").get_text())
 
-        away_odds.append(int(away_entry.find("td").get_text()))
-        home_odds.append(int(home_entry.find("td").get_text()))
+        # Get odds
+        try:
+            away_odds.append(int(away_entry.find("td").get_text()))
+        except ValueError:
+            away_odds.append(0)
+        try:
+            home_odds.append(int(home_entry.find("td").get_text()))
+        except ValueError:
+            home_odds.append(0)
+
+         # Get datetime
+        datetimes.append(away_entry.find_all("td")[3].get_text())
 
     i = 0
 
