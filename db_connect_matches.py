@@ -1,7 +1,7 @@
 from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
                         insert, update, Date, Integer,
-                        Boolean, Time)
+                        Boolean, Time, select)
 
 
 class ConnectDbMatch:
@@ -59,6 +59,17 @@ class ConnectDbMatch:
         self.connection.close()
 
         # Instance method (operate on instance attributes, can also access class attributes)
+
+    def get_all_matches(self):
+        try:
+            query = self.upcoming_matches.select().where(self.upcoming_matches.c.id != 'null')
+            print(query)
+            result = self.connection.execute(query)
+            rows = result.fetchall()
+
+            return rows
+        except:
+            return None
 
     def get_upcoming_matches_by_id(self, par_id):
         """
