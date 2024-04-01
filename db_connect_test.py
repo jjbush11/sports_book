@@ -24,6 +24,9 @@ print("Team1_odds: " + str(match.team1_odds))
 print("Team2: " + match.team2)
 print("Team2_odds: " + str(match.team2_odds))
 
+match2 = db_match.get_upcoming_matches_by_id('DucksCanucks')
+print(match2)
+
 
 
 # print(user.active_bets[0]['return'])
