@@ -9,7 +9,7 @@ NHL_MONEYLINE_URL = ("https://vegas-odds.com/nhl/odds/")
 
 
 def main() -> int:
-    # grab_nhl_scores()
+    grab_nhl_scores()
     grab_nhl_moneylines()
     return 0
 
@@ -42,6 +42,7 @@ def grab_nhl_scores():
         winning_scores.append(int(game_winner[1].get_text()))
 
     i = 0
+    return [winning_teams, winning_scores, losing_teams, losing_scores]
 
 
 def grab_nhl_moneylines():
@@ -78,6 +79,8 @@ def grab_nhl_moneylines():
         datetimes.append(away_entry.find_all("td")[3].get_text())
 
     i = 0
+
+    return [away_teams, away_odds, home_teams, home_odds, datetimes]
 
 
 if __name__ == "__main__":
