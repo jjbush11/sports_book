@@ -2,6 +2,7 @@ from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
                         insert, update, Date, Integer,
                         Boolean, Time, select)
+import datetime
 
 
 class ConnectDbMatch:
@@ -63,7 +64,6 @@ class ConnectDbMatch:
     def get_all_matches(self):
         try:
             query = self.upcoming_matches.select().where(self.upcoming_matches.c.id != 'null')
-            print(query)
             result = self.connection.execute(query)
             rows = result.fetchall()
 
@@ -149,3 +149,25 @@ class ConnectDbMatch:
         self.connection.commit()
 
         return 0
+
+    def check_and_set_if_match_settled(self, par_id):
+        match = self.get_upcoming_matches_by_id(par_id)
+
+        # Check that match exists and date and time fields are not empty
+        if match is None or match.time is None or match.date is None:
+            return False
+
+        # Get current date and time
+        current_datetime = datetime.datetime.now()
+
+        # Check if match is still in future or is past to determine the if_settled field
+        if match.date > current_datetime.date():
+            self.edit_upcoming_match_row(par_id, 'is_settled', False)
+        elif match.date >= current_datetime.date() and match.time > current_datetime.time():
+            self.edit_upcoming_match_row(par_id, 'is_settled', False)
+        elif match.date >= current_datetime.date() and match.time <= current_datetime.time():
+            self.edit_upcoming_match_row(par_id, 'is_settled', True)
+        elif match.date < current_datetime.date():
+            self.edit_upcoming_match_row(par_id, "is_settled", True)
+
+        return True
