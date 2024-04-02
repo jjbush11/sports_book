@@ -1,6 +1,8 @@
 from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
-                        insert, update, Date, Integer)
+                        insert, update, Date, Integer,
+                        Boolean, Time, select)
+import datetime
 
 
 class ConnectDbMatch:
@@ -41,8 +43,13 @@ class ConnectDbMatch:
                 Column('id', String(30), primary_key=True),
                 Column('team1', String(30)),
                 Column('team1_odds', Integer),
+                Column('team1_score', Integer),
                 Column('team2', String(30)),
-                Column('team2_odds', Integer)
+                Column('team2_odds', Integer),
+                Column('team2_score', Integer),
+                Column('is_settled', Boolean),
+                Column('date', Date),
+                Column('time', Time)
             )
 
         except Exception as e:
@@ -53,6 +60,16 @@ class ConnectDbMatch:
         self.connection.close()
 
         # Instance method (operate on instance attributes, can also access class attributes)
+
+    def get_all_matches(self):
+        try:
+            query = self.upcoming_matches.select().where(self.upcoming_matches.c.id != 'null')
+            result = self.connection.execute(query)
+            rows = result.fetchall()
+
+            return rows
+        except:
+            return None
 
     def get_upcoming_matches_by_id(self, par_id):
         """
@@ -132,3 +149,25 @@ class ConnectDbMatch:
         self.connection.commit()
 
         return 0
+
+    def check_and_set_if_match_settled(self, par_id):
+        match = self.get_upcoming_matches_by_id(par_id)
+
+        # Check that match exists and date and time fields are not empty
+        if match is None or match.time is None or match.date is None:
+            return False
+
+        # Get current date and time
+        current_datetime = datetime.datetime.now()
+
+        # Check if match is still in future or is past to determine the if_settled field
+        if match.date > current_datetime.date():
+            self.edit_upcoming_match_row(par_id, 'is_settled', False)
+        elif match.date >= current_datetime.date() and match.time > current_datetime.time():
+            self.edit_upcoming_match_row(par_id, 'is_settled', False)
+        elif match.date >= current_datetime.date() and match.time <= current_datetime.time():
+            self.edit_upcoming_match_row(par_id, 'is_settled', True)
+        elif match.date < current_datetime.date():
+            self.edit_upcoming_match_row(par_id, "is_settled", True)
+
+        return True
