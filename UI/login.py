@@ -1,3 +1,4 @@
+import homepage
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout
 from PyQt6.QtGui import QFont
@@ -112,6 +113,9 @@ class LoginWindow(QMainWindow):
         #Logic to check user credentials against user_db
 
         #If passed, route to main application window
+        self.home_window = homepage.StartWindow()
+        self.home_window.show()
+        self.close()
 
 class SignInWindow(QMainWindow):
     def __init__(self):
