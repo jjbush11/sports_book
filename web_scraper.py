@@ -61,6 +61,7 @@ def grab_moneylines(url: str) -> [[]]:
     # Create soup, find table bodies containing odds, tables
     moneyline_page = requests.get(url)
     soup = BeautifulSoup(moneyline_page.content, "html.parser")
+
     moneyline_entries = soup.find_all("div", class_="table-responsive oddstablev2")[0].find("table").find_all("tbody")[1:]
     away_teams = list()
     away_odds = list()

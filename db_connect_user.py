@@ -5,7 +5,7 @@ from sqlalchemy import (create_engine, MetaData, Table,
 
 class ConnectDbUser:
     """
-    ConnectDb - forms connection to database.
+    ConnectDb - forms connection to database for user_info table.
     """
 
     db_url = 'mysql+mysqlconnector://jjbush_admin:ANo9Eju{_&4-.V+8Z%OP@webdb.uvm.edu/JJBUSH_sports_book'
@@ -38,11 +38,10 @@ class ConnectDbUser:
     def __del__(self):
         self.connection.close()
 
-        # Instance method (operate on instance attributes, can also access class attributes)
     def get_row_by_user(self, par_user):
         """
-        Takes username and returns the row of the user
-        :param: par_user, str
+        Takes username and returns the row of the user with all columns
+        :param: par_user: str
         :return: if user found returns user info
         if user not found returns None
         """
@@ -58,7 +57,7 @@ class ConnectDbUser:
     def does_user_exist(self, username) -> bool:
         """
         Checks if a given username exists in the db
-        :param username: str
+        :param: username: str
         :return: bool
         """
         rows = self.get_row_by_user(username)
@@ -68,11 +67,11 @@ class ConnectDbUser:
 
     def add_new_user(self, username, password, balance=20, active_bets=None, resolved_bets=None) -> int:
         """
-        :param username:
-        :param password:
-        :param balance:
-        :param active_bets:
-        :param resolved_bets:
+        :param username: str
+        :param password: str
+        :param balance: float
+        :param active_bets: list of dictionaries
+        :param resolved_bets: list of dictionaries
         :return: 0 if the user is added successfully, 1 if the user already exists,
         2 if user doesn't exist but is not added
         """
