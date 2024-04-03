@@ -20,29 +20,43 @@ def upload_current_matches_and_moneyline_db():
     # List of sport scores urls
     scores_links = [web_scraper.NBA_SCORES_URL, web_scraper.NHL_SCORES_URL,
                     web_scraper.MLB_SCORES_URL]
+    # List of sport odds urls
+    odds_links = [web_scraper.NBA_MONEYLINE_URL, web_scraper.NHL_MONEYLINE_URL,
+                  web_scraper.MLB_MONEYLINE_URL]
+    # Create db obj to connect to sport match up table
+    db_match = ConnectDbMatch()
 
-    # Get lists of winning and losing teams with scores
-    teams_scores = grab_nhl_scores()
-    print(teams_scores)
-    # Separate
-    winning_teams = teams_scores[0]
-    losing_teams = teams_scores[1]
-    winning_scores = teams_scores[2]
-    losing_scores = teams_scores[3]
+    # Loop through getting scores links
+    for i in range(0, len(scores_links)):
+        # Get lists of winning and losing teams with scores
+        teams_scores = grab_scores(scores_links[i])
 
-    # Get teams money lines
-    teams_odds = grab_nhl_moneylines()
-    print(teams_odds)
-    # Separate
-    away_teams = teams_odds[0]
-    away_odds = teams_odds[1]
-    home_teams = teams_odds[2]
-    home_odds = teams_odds[3]
-    datetimes = teams_odds[4]
+        # Separate into 4 different lists
+        winning_teams = teams_scores[0]
+        losing_teams = teams_scores[1]
+        winning_scores = teams_scores[2]
+        losing_scores = teams_scores[3]
 
-    for i in range(0, len(winning_scores)):
-        print(winning_teams[i])
-        print(winning_scores[i])
+        # Get odds
+        teams_odds = grab_moneylines(odds_links[i])
+
+        # Separate into 4 different lists
+        away_teams = teams_odds[0]
+        away_odds = teams_odds[2]
+        home_teams = teams_odds[1]
+        home_odds = teams_odds[3]
+        datetimes = teams_odds[4]
+
+        for j in range(0, len(away_odds)):
+            print('')
+            # print(winning_teams[j] + ': ' + str(winning_scores[j]))
+            # print(losing_teams[j] + ': '+ str(losing_scores[j]))
+
+            print(away_teams[j] + '(' + str(away_odds[j])+')')
+            print(str(home_teams[j]) + '(' + str(home_odds[j])+')')
+            print(datetimes[j])
+
 
 
 upload_current_matches_and_moneyline_db()
+  
