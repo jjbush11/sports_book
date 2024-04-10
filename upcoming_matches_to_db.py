@@ -54,7 +54,13 @@ def upload_current_matches_and_moneyline_db():
 
             print(away_teams[j] + '(' + str(away_odds[j])+')')
             print(str(home_teams[j]) + '(' + str(home_odds[j])+')')
-            print(datetimes[j])
+            print(datetimes[j]) # need to format date to fit correctly
+
+        for j in range(0, len(winning_teams)):
+            pass
+            # upload home team and score
+            # upload away team and score
+
 
 
 
