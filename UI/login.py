@@ -185,9 +185,9 @@ class SignInWindow(QMainWindow):
 
         passed = self.check_match(self.password.text(), self.password2.text())
         #if (passed == False):
-            
-
-        #Logic to put created username and password into user_db
+            #display message that passwords don't match
+        #else
+            #logic to put created username and password into user_db
     
     def check_match(self, password1, password2):
         if (password1 == password2):
