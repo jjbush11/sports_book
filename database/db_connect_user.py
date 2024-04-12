@@ -1,6 +1,6 @@
 from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
-                        insert, update)
+                        insert, update, delete)
 
 
 class ConnectDbUser:
@@ -76,7 +76,7 @@ class ConnectDbUser:
         2 if user doesn't exist but is not added
         """
         # Check that username does not already exist
-        if not self.does_user_exist(username):
+        if self.does_user_exist(username):
             return 1
 
         # Create a new user object with the provided data
@@ -96,6 +96,23 @@ class ConnectDbUser:
         if self.does_user_exist(username):
             return 0
         return 2
+
+    def remove_user(self, username):
+        """
+        :param username: str
+        """
+        # Check that username does not already exist
+        if not self.get_row_by_user(username):
+            return 1
+
+        # Generates delete query
+        del_query = delete(self.user_info).where(self.user_info.c.username == username)
+
+        # Executes delete query
+        self.connection.execute(del_query)
+        self.connection.commit()
+
+        return 0
 
     def edit_row(self, username, field_to_update, updated_value) -> int:
         """

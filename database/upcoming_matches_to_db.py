@@ -1,5 +1,5 @@
 import web_scraper
-from db_connect_matches import ConnectDbMatch
+from db_upcoming_matches import ConnectDbMatch
 from web_scraper import grab_scores, grab_moneylines
 
 db_match = ConnectDbMatch()
