@@ -27,9 +27,7 @@ class ConnectDbUser:
                 metadata,
                 Column('username', String(30), primary_key=True),
                 Column('password', String(30)),
-                Column('balance', Float),
-                Column('active_bets', JSON),
-                Column('resolved_bets', JSON)
+                Column('balance', Float)
             )
         except Exception as e:
             print('ERROR: Cannot connect to database with error: '+str(e))
@@ -83,9 +81,7 @@ class ConnectDbUser:
         new_user = insert(self.user_info).values(
             username= username,
             password= password,
-            balance= balance,
-            active_bets= active_bets,
-            resolved_bets= resolved_bets
+            balance= balance
         )
 
         # Insert the new user into the user_info table
