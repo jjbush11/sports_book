@@ -1,9 +1,10 @@
 import homepage
-import db_connect_user
+from database import db_connect_user
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QMessageBox
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+
 
 class StartWindow(QMainWindow):
     def __init__(self):
@@ -112,8 +113,10 @@ class LoginWindow(QMainWindow):
         username = self.username.text()
         password = self.password.text()
 
+        db = db_connect_user.ConnectDbUser()
+
        # Logic to check user credentials against user_db
-        if(db_connect_user.does_user_exist(username)):
+        if(db.does_user_exist(username)):
             #If passed, route to main application window
             self.home_window = homepage.StartWindow()
             self.home_window.show()
@@ -189,13 +192,15 @@ class SignInWindow(QMainWindow):
         password = self.password.text()  
         password_check = self.password2.text()
 
+        db = db_connect_user.ConnectDbUser()
+
         passed = self.check_match(password, password_check)
         if (passed == False):
             #display message that passwords don't match
             QMessageBox.warning(self, 'Error', 'Error: Passwords do not match, please try again')
         else:  
             #logic to put created username and password into user_db
-            status = db_connect_user.add_new_user(username, password)
+            status = db.add_new_user(username, password)
             match (status):
                 case 0:
                     QMessageBox.information(self, 'Success', 'Success: User credentials successfully created, please login to access your account')
