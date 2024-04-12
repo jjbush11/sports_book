@@ -31,7 +31,8 @@ class ConnectDbBet:
                 Column('win', Boolean),
                 Column('odds', Integer),
                 Column('wager', Integer),
-                Column('return_val', Float)
+                Column('return_val', Float),
+                Column('settled', Boolean)
             )
 
         except Exception as e:
@@ -78,32 +79,43 @@ class ConnectDbBet:
             return True
         return False
 
-    def add_new_bet(self, username, bet) -> int:
+    def add_new_bet(self, username, par_id, win, odds, wager, settled) -> int:
         """
-        Add new settled bet up
-        :param bet: Bet object
-        :param username: str
-        :return: int, 1 if bet already exits, 0 if added successfully, 2 if not added
+        :param username:
+        :param par_id:
+        :param win:
+        :param odds:
+        :param wager:
+        :param settled:
+        :return:
         """
         # Check that username does not already exist
-        if self.get_bet_by_id(bet.id):
+        if self.get_bet_by_id(par_id):
             return 1
+
+        return_val = -1
+        if odds > 0:
+            return_val = wager * (odds / 100)
+        else:
+            return_val = wager / (-odds / 100)
 
         # Create a new user object with the provided data
         new_bet = insert(self.bet_table).values(
-            id=bet.id,
             username=username,
-            win=bet.win,
-            odds=bet.odds,
-            wager=bet.wager,
-            return_val=bet.return_val
+            id=par_id,
+            win=win,
+            odds=odds,
+            wager=wager,
+            return_val=return_val,
+            settled=settled
         )
 
         # Insert the new user into the user_info table
+        self.connection.execute(new_bet)
         self.connection.commit()
 
         # Check if user was added
-        if self.get_bet_by_id(bet.id):
+        if self.get_bet_by_id(par_id):
             return 0
         return 2
 
@@ -139,6 +151,22 @@ class ConnectDbBet:
         item_to_update = upd.values({field_to_update: updated_value})
         update_query = item_to_update.where(self.bet_table.c.id == par_id)
         self.connection.execute(update_query)
-        self.connection.commit()
 
         return 0
+
+    def get_all_active_bets_by_user(self, username):
+        """
+        Gets all the active bets for a given user
+        :param username: str
+        :return:
+        """
+        try:
+            query = self.bet_table.select().where(self.bet_table.c.username == username and
+                                                  self.bet_table.c.settled == 0)
+            result = self.connection.execute(query)
+            rows = result.fetchall()
+
+            return rows
+        except:
+            return None
+
