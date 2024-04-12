@@ -42,7 +42,7 @@ class ConnectDbBet:
     def __del__(self):
         self.connection.close()
 
-    def get_all_bet(self):
+    def get_all_bets(self):
         try:
             query = self.bet_table.select().where(self.bet_table.c.id != 'null')
             result = self.connection.execute(query)
@@ -147,26 +147,4 @@ class ConnectDbBet:
         if not self.get_bet_by_id(par_id):
             return 1
 
-        upd = update(self.bet_table)
-        item_to_update = upd.values({field_to_update: updated_value})
-        update_query = item_to_update.where(self.bet_table.c.id == par_id)
-        self.connection.execute(update_query)
-
-        return 0
-
-    def get_all_active_bets_by_user(self, username):
-        """
-        Gets all the active bets for a given user
-        :param username: str
-        :return:
-        """
-        try:
-            query = self.bet_table.select().where(self.bet_table.c.username == username and
-                                                  self.bet_table.c.settled == 0)
-            result = self.connection.execute(query)
-            rows = result.fetchall()
-
-            return rows
-        except:
-            return None
-
+        upd = update(s
