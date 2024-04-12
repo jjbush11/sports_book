@@ -1,9 +1,11 @@
 from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
-                        insert, update, Date, Integer)
+                        insert, update, Date, Integer,
+                        Boolean, Time, select, delete)
+import datetime
 
 
-class ConnectDbMatch:
+class ConnectDbUpcomingMatch:
     """
     ConnectDb - forms connection to database.
     """
@@ -18,31 +20,18 @@ class ConnectDbMatch:
             db_engine = create_engine(self.db_url)
             self.connection = db_engine.connect()
 
-            # Define metadata
-            # metadata = MetaData()
-
-            # Set up sport table framework
-            # self.past_match_up = Table(
-            #     'sport_info',
-            #     metadata,
-            #     Column('id', String(30), primary_key=True),
-            #     Column('date', Date(30)),
-            #     Column('winning_team', String(20)),
-            #     Column('winning_score', Integer(3)),
-            #     Column('losing_team', String(20)),
-            #     Column('losing_score', Integer(3)),
-            # )
-
             metadata_upcoming = MetaData()
             # Set up sport table framework
             self.upcoming_matches = Table(
                 'upcoming_matches',
                 metadata_upcoming,
                 Column('id', String(30), primary_key=True),
-                Column('team1', String(30)),
-                Column('team1_odds', Integer),
-                Column('team2', String(30)),
-                Column('team2_odds', Integer)
+                Column('home', String(30)),
+                Column('home_odds', Integer),
+                Column('away', String(30)),
+                Column('away_odds', Integer),
+                Column('date', Date),
+                Column('time', Time)
             )
 
         except Exception as e:
@@ -52,7 +41,19 @@ class ConnectDbMatch:
     def __del__(self):
         self.connection.close()
 
-        # Instance method (operate on instance attributes, can also access class attributes)
+    def get_all_matches(self):
+        """
+        Gets all upcoming matches in the database
+        :return: list of all matches
+        """
+        try:
+            query = self.upcoming_matches.select().where(self.upcoming_matches.c.id != 'null')
+            result = self.connection.execute(query)
+            rows = result.fetchall()
+
+            return rows
+        except:
+            return None
 
     def get_upcoming_matches_by_id(self, par_id):
         """
@@ -81,14 +82,14 @@ class ConnectDbMatch:
             return True
         return False
 
-    def add_new_upcoming_match(self, id, team1, team1_odds, team2, team2_odds) -> int:
+    def add_new_upcoming_match(self, id, home, home_odds, away, away_odds, date, time) -> int:
         """
         Add new upcoming match up
         :param id:
-        :param team1:
-        :param team1_odds:
-        :param team2:
-        :param team2_odds:
+        :param home:
+        :param home_odds:
+        :param away:
+        :param away_odds:
         :return:
         """
         # Check that username does not already exist
@@ -98,10 +99,12 @@ class ConnectDbMatch:
         # Create a new user object with the provided data
         new_match_up = insert(self.upcoming_matches).values(
             id=id,
-            team1=team1,
-            team1_odds=team1_odds,
-            team2=team2,
-            team2_odds=team2_odds
+            home=home,
+            home_odds=home_odds,
+            away=away,
+            away_odds=away_odds,
+            date=date,
+            time=time
         )
 
         # Insert the new user into the user_info table
@@ -112,6 +115,39 @@ class ConnectDbMatch:
         if self.get_upcoming_matches_by_id(id):
             return 0
         return 2
+
+    def remove_upcoming_match(self, par_id):
+        """
+        Removes upcoming match by id
+        :param par_id: str
+        :return: 0 is removed, 1 if id does not exist
+        """
+        # Check that username does not already exist
+        if not self.get_upcoming_matches_by_id(par_id):
+            return 1
+
+        # Generates delete query
+        del_query = delete(self.upcoming_matches).where(self.upcoming_matches.c.id == par_id)
+
+        # Executes delete query
+        self.connection.execute(del_query)
+        self.connection.commit()
+
+        return 0
+
+    def remove_all(self):
+        """
+        Removes all upcoming matches from database
+        :return: 0 if successful
+        """
+        # Generates delete query
+        del_query = delete(self.upcoming_matches).where(self.upcoming_matches.c.id != "null")
+
+        # Executes delete query
+        self.connection.execute(del_query)
+        self.connection.commit()
+
+        return 0
 
     def edit_upcoming_match_row(self, id, field_to_update, updated_value) -> int:
         """

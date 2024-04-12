@@ -1,44 +1,52 @@
-from PyQt6.QtWidgets import (
-        QApplication, QWidget, QPushButton, 
-        QLabel, QLineEdit, QVBoxLayout, QGridLayout
-)
-from PyQt6.QtCore import Qt
-import sys
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QMessageBox
 
-class LoginWindow(QWidget):
+class SignUpWindow(QWidget):
     def __init__(self):
         super().__init__()
+        self.initUI()
 
-        self.setWindowTitle("Login Page")
-        self.setContentsMargins(20, 20, 20, 20)
+    def initUI(self):
+        # Layout
+        layout = QVBoxLayout()
 
-        layout = QGridLayout()
+        # Username field
+        self.username = QLineEdit(self)
+        self.username.setPlaceholderText("Enter your username")
+        layout.addWidget(self.username)
+
+        # Password field
+        self.password = QLineEdit(self)
+        self.password.setPlaceholderText("Enter your password")
+        self.password.setEchoMode(QLineEdit.EchoMode.Password)
+        layout.addWidget(self.password)
+
+        # Confirm password field
+        self.confirm_password = QLineEdit(self)
+        self.confirm_password.setPlaceholderText("Confirm your password")
+        self.confirm_password.setEchoMode(QLineEdit.EchoMode.Password)
+        layout.addWidget(self.confirm_password)
+
+        # Submit button
+        self.submit_button = QPushButton('Sign Up', self)
+        self.submit_button.clicked.connect(self.check_passwords)
+        layout.addWidget(self.submit_button)
+
+        # Set layout
         self.setLayout(layout)
+        self.setWindowTitle("Sign Up")
 
-        self.label1 = QLabel("Username: ")
-        layout.addWidget(self.label1, 0, 0, alignment=Qt.AlignmentFlag.AlignCenter)
+    def check_passwords(self):
+        if self.password.text() == self.confirm_password.text():
+            QMessageBox.information(self, 'Success', 'Signup successful!')
+        else:
+            QMessageBox.warning(self, 'Error', 'Passwords do not match.')
 
-        self.label2 = QLabel("Password: ")
-        layout.addWidget(self.label2, 1, 0, alignment=Qt.AlignmentFlag.AlignCenter)
+# Run the application
+def main():
+    app = QApplication([])
+    window = SignUpWindow()
+    window.show()
+    app.exec()
 
-        self.input1 = QLineEdit()
-        self.input1.setFixedWidth(200)
-        layout.addWidget(self.input1, 0, 1, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        self.input2 = QLineEdit()
-        self.input2.setFixedWidth(200)
-        layout.addWidget(self.input2, 1, 1, alignment=Qt.AlignmentFlag.AlignCenter)
-
-        button = QPushButton("Submit")
-        button.setFixedWidth(50)
-        button.clicked.connect(self.display)
-        layout.addWidget(button, 2, 1, Qt.AlignmentFlag.AlignRight)
-
-    def display(self):
-        print(self.input1.text())
-        print(self.input2.text())
-
-app = QApplication(sys.argv) 
-window = LoginWindow()
-window.show()
-sys.exit(app.exec())
+if __name__ == '__main__':
+    main()
