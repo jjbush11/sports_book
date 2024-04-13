@@ -17,8 +17,7 @@ MLB_MONEYLINE_URL = ("https://vegas-odds.com/mlb/odds/")
 
 
 def main() -> int:
-    print(grab_scores(NHL_SCORES_URL))
-    print(grab_moneylines(NHL_MONEYLINE_URL))
+    print(grab_scores(NBA_SCORES_URL))
     return 0
 
 
@@ -29,31 +28,35 @@ def grab_scores(url: str) -> [[]]:
     soup = BeautifulSoup(scores_page.content, "html.parser")
 
     # Lists for winning, losing teams & scores
-    winning_teams = list()
-    losing_teams = list()
-    winning_scores = list()
-    losing_scores = list()
+    away_teams = list()
+    home_teams = list()
+    away_scores = list()
+    home_scores = list()
 
     # Score sections at the top of the page, still needs parsing
-    scores_divs = soup.find_all("div", class_="game_summary nohover")
+    if url == NBA_SCORES_URL:
+        scores_divs = soup.find_all("div", class_="game_summaries")[0].find_all("div", class_="game_summary expanded nohover")
+    else:
+        scores_divs = soup.find_all("div", class_="game_summary nohover")
+
     for div in scores_divs:
         # Game loser, winner data
-        game_loser = div.find("table").find("tbody").find_all(class_="loser")[0].find_all("td")
-        game_winner = div.find("table").find("tbody").find_all(class_="winner")[0].find_all("td")
+        away_team = div.find("table").find("tbody").find_all("tr")[0].find_all("td")
+        home_team = div.find("table").find("tbody").find_all("tr")[1].find_all("td")
 
         # Append team names
-        losing_teams.append(game_loser[0].find("a").get_text())
-        winning_teams.append(game_winner[0].find("a").get_text())
+        away_teams.append(away_team[0].find("a").get_text())
+        home_teams.append(home_team[0].find("a").get_text())
 
         # Append scores
-        losing_scores.append(int(game_loser[1].get_text()))
-        winning_scores.append(int(game_winner[1].get_text()))
+        away_scores.append(int(away_team[1].get_text()))
+        home_scores.append(int(home_team[1].get_text()))
 
     return_list = list()
-    return_list.append(winning_teams)
-    return_list.append(losing_teams)
-    return_list.append(winning_scores)
-    return_list.append(losing_scores)
+    return_list.append(away_teams)
+    return_list.append(home_teams)
+    return_list.append(away_scores)
+    return_list.append(home_scores)
     return return_list
 
 
