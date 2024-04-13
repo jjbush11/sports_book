@@ -2,8 +2,9 @@ from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
                         insert, update, Date, Integer,
                         Boolean, Time, select, delete)
-from bet import Bet
-import datetime
+
+from db_upcoming_matches import ConnectDbUpcomingMatch
+from sqlalchemy.orm import sessionmaker
 
 
 class ConnectDbBet:
@@ -17,9 +18,14 @@ class ConnectDbBet:
 
     def __init__(self):
         try:
+
             # Create engine and connect
             db_engine = create_engine(self.db_url)
             self.connection = db_engine.connect()
+
+            # Initializing session for join query
+            Session = sessionmaker(bind=db_engine)
+            self.session = Session()
 
             metadata_bet = MetaData()
             # Set up sport table framework
@@ -186,3 +192,15 @@ class ConnectDbBet:
         except:
             return None
 
+    # def join_bet_with_upcoming_matches(self, username):
+    #
+    #     upcoming_db_table = ConnectDbUpcomingMatch().upcoming_matches
+    #
+    #     query = ("SELECT *" +
+    #              "FROM upcoming_matches" +
+    #              "JOIN bet_table ON upcoming_matches.id = bet_table.id" +
+    #              "WHERE bet_table.username = '$username';")
+    #
+    #     query = query.replace('$username', username)
+    #     result = self.connection.execute(query)
+    #     return result.fetchall()
