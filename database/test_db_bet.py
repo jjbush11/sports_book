@@ -11,6 +11,36 @@ new_bet = db.add_new_bet(
     wager=10,
     settled=0
 )
+
+#Add test bets
+test_bet1 = db.add_new_bet(
+    username='fart',
+    par_id="woof211",
+    win=0,
+    odds=300,
+    wager=10,
+    settled=0
+)
+
+test_bet2 = db.add_new_bet(
+    username='fart',
+    par_id="gad22",
+    win=1,
+    odds=200,
+    wager=10,
+    settled=1
+)
+
+test_bet3 = db.add_new_bet(
+    username='fart',
+    par_id="www2",
+    win=1,
+    odds=50,
+    wager=30,
+    settled=1
+)
+
+
 if new_bet == 1:
     print("bet already exists.")
 elif new_bet == 2:

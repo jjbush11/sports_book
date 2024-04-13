@@ -1,8 +1,11 @@
 import sys
-import login
+import login, user_session_info
+from database import db_bet
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QTableWidget
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+
+db = db_bet.ConnectDbBet()
 
 class StartWindow(QMainWindow):
     def __init__(self):
@@ -63,12 +66,21 @@ class StartWindow(QMainWindow):
 
         bets_table1 = QTableWidget()
         bets_table1.setColumnCount(4)
-        bets_table1.setHorizontalHeaderLabels(["Event", "Bet Type", "Amount", "Status"])
+        bets_table1.setHorizontalHeaderLabels(["Sport", "Teams", "Score", "Status", "Odds", "Wager", "Result"])
         bets_table1.setFixedHeight(300)
         bets_table1.setFixedWidth(600)
 
         pastbets_layout.addWidget(bets_table1)
 
+        self.get_past_bets()
+        self.get_active_bets()
+
+    def get_past_bets(self):
+        bets = db.get_all_settled_bets_by_user(user_session_info.session_username)
+        print (bets[0])
+    def get_active_bets(self):
+        bets = db.get_all_active_bets_by_user(user_session_info.session_username)
+        print(bets)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

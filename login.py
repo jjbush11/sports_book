@@ -1,11 +1,10 @@
 import homepage
+import user_session_info
 from database import db_connect_user
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QMessageBox
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
-
-session_username = None
 
 class StartWindow(QMainWindow):
     def __init__(self):
@@ -120,7 +119,7 @@ class LoginWindow(QMainWindow):
         if(db.does_user_exist(username)):
             #If passed, route to main application window
             #Set global username
-            session_username = username
+            user_session_info.session_username = username
             self.home_window = homepage.StartWindow()
             self.home_window.show()
             self.close()
