@@ -31,7 +31,8 @@ class ConnectDbUpcomingMatch:
                 Column('away', String(30)),
                 Column('away_odds', Integer),
                 Column('date', Date),
-                Column('time', Time)
+                Column('time', Time),
+                Column('sport', String(40))
             )
 
         except Exception as e:
@@ -82,15 +83,18 @@ class ConnectDbUpcomingMatch:
             return True
         return False
 
-    def add_new_upcoming_match(self, id, home, home_odds, away, away_odds, date, time) -> int:
+    def add_new_upcoming_match(self, id, home, home_odds, away, away_odds, date, time, sport) -> int:
         """
-        Add new upcoming match up
+        Add new upcoming match
         :param id:
         :param home:
         :param home_odds:
         :param away:
         :param away_odds:
-        :return:
+        :param date:
+        :param time:
+        :param sport:
+        :return:  1 if match already exists, 2 if upload failed, 0 if successful
         """
         # Check that username does not already exist
         if self.get_upcoming_matches_by_id(id):
@@ -104,7 +108,8 @@ class ConnectDbUpcomingMatch:
             away=away,
             away_odds=away_odds,
             date=date,
-            time=time
+            time=time,
+            sport=sport
         )
 
         # Insert the new user into the user_info table

@@ -29,7 +29,8 @@ class ConnectDbSettledMatch:
                 Column('away', String(30)),
                 Column('away_score', Integer),
                 Column('home', String(30)),
-                Column('home_score', Integer)
+                Column('home_score', Integer),
+                Column('sport', String(40))
             )
 
         except Exception as e:
@@ -80,14 +81,15 @@ class ConnectDbSettledMatch:
             return True
         return False
 
-    def add_new_settled_match(self, par_id, away, away_score, home, home_score) -> int:
+    def add_new_settled_match(self, par_id, away, away_score, home, home_score, sport) -> int:
         """
         Add new settled match up
-        :param par_id:
-        :param away:
-        :param away_score:
-        :param home:
-        :param home_score:
+        :param par_id: str
+        :param away: str
+        :param away_score: int
+        :param home: str
+        :param home_score: int
+        :param sport: str
         :return: int, 1 if match already exits, 0 if added successfully, 2 if not added
         """
         # Check that username does not already exist
@@ -100,7 +102,8 @@ class ConnectDbSettledMatch:
             away=away,
             away_score=away_score,
             home=home,
-            home_score=home_score
+            home_score=home_score,
+            sport=sport
         )
 
         # Insert the new user into the user_info table
