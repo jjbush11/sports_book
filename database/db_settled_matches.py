@@ -2,7 +2,6 @@ from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
                         insert, update, Date, Integer,
                         Boolean, Time, select, delete)
-import datetime
 
 
 class ConnectDbSettledMatch:

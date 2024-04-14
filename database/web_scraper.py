@@ -35,9 +35,15 @@ def grab_scores(url: str) -> [[]]:
 
     # Score sections at the top of the page, still needs parsing
     if url == NBA_SCORES_URL:
-        scores_divs = soup.find_all("div", class_="game_summaries")[0].find_all("div", class_="game_summary expanded nohover")
+        if len(soup.find_all("div", class_="game_summaries")) > 0:
+            scores_divs = soup.find_all("div", class_="game_summaries")[0].find_all("div", class_="game_summary expanded nohover")
+        else:
+            return [[]]
     else:
-        scores_divs = soup.find_all("div", class_="game_summary nohover")
+        if len(soup.find_all("div", class_="game_summary nohover")) > 0:
+            scores_divs = soup.find_all("div", class_="game_summary nohover")
+        else:
+            return [[]]
 
     for div in scores_divs:
         # Game loser, winner data
@@ -65,7 +71,11 @@ def grab_moneylines(url: str) -> [[]]:
     moneyline_page = requests.get(url)
     soup = BeautifulSoup(moneyline_page.content, "html.parser")
 
-    moneyline_entries = soup.find_all("div", class_="table-responsive oddstablev2")[0].find("table").find_all("tbody")[1:]
+    # Get the moneyline listings. If none exist, return an empty nested list
+    moneyline_entries = soup.find_all("div", class_="table-responsive oddstablev2")[0].find("table").find_all("tbody")
+    if len(moneyline_entries) < 1:
+        return [[]]
+
     away_teams = list()
     away_odds = list()
     home_teams = list()
