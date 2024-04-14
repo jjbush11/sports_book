@@ -1,4 +1,4 @@
-import homepage
+import home_window_UI
 import user_session_info
 from database import db_connect_user
 import sys
@@ -127,7 +127,7 @@ class LoginWindow(QMainWindow):
             on_logon_functions.update_tables()
             on_logon_functions.check_if_settled_and_pay(username)
 
-            self.home_window = homepage.StartWindow()
+            self.home_window = home_window_UI.Ui_MainWindow()
             self.home_window.show()
             self.close()
         else:
