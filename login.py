@@ -117,7 +117,7 @@ class LoginWindow(QMainWindow):
         db = db_connect_user.ConnectDbUser()
 
        # Logic to check user credentials against user_db
-        if(db.does_user_exist(username)):
+        if(db.check_userandpass(username, password)):
             #If passed, route to main application window
             #Set global username
             user_session_info.session_username = username

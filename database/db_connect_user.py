@@ -62,6 +62,19 @@ class ConnectDbUser:
         if (rows != None):
             return True
         return False
+    
+    def check_userandpass(self, username, password) -> bool:
+        """
+        Checks if a given username exists in the db, if it does check the passwrod
+        :param username: str
+        :param password: str
+        :return: bool
+        """
+        row = self.get_row_by_user(username)
+        if (row != None):
+            if (row[1] == password):
+                return True
+        return False
 
     def add_new_user(self, username, password, balance=20, active_bets=None, resolved_bets=None) -> int:
         """
@@ -129,4 +142,3 @@ class ConnectDbUser:
         self.connection.commit()
 
         return 0
-
