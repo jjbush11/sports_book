@@ -2,7 +2,6 @@ from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
                         insert, update, Date, Integer,
                         Boolean, Time, select, delete)
-import datetime
 
 
 class ConnectDbUpcomingMatch:
@@ -25,13 +24,13 @@ class ConnectDbUpcomingMatch:
             self.upcoming_matches = Table(
                 'upcoming_matches',
                 metadata_upcoming,
-                Column('id', String(30), primary_key=True),
-                Column('home', String(30)),
+                Column('id', String(100), primary_key=True),
+                Column('home', String(60)),
                 Column('home_odds', Integer),
-                Column('away', String(30)),
+                Column('away', String(60)),
                 Column('away_odds', Integer),
-                Column('date', Date),
-                Column('time', Time),
+                Column('date', String(50)),
+                Column('time', String(50)),
                 Column('sport', String(40))
             )
 
@@ -113,7 +112,7 @@ class ConnectDbUpcomingMatch:
         )
 
         # Insert the new user into the user_info table
-        print(self.connection.execute(new_match_up))
+        self.connection.execute(new_match_up)
         self.connection.commit()
 
         # Check if user was added
@@ -157,8 +156,8 @@ class ConnectDbUpcomingMatch:
     def edit_upcoming_match_row(self, id, field_to_update, updated_value) -> int:
         """
         Edits the desired column of the user given
-        :param username:
-        :param field_to_update:
+        :param id: str
+        :param field_to_update: str
         :param updated_value:
         :return: int 0 if sucessful
         """

@@ -10,7 +10,8 @@ new_upcoming = db.add_new_upcoming_match(
     away='New England Patriots',
     away_odds=-100,
     date="2024-12-12",
-    time="20:00:00"
+    time="20:00:00",
+    sport="NFL"
 )
 if new_upcoming == 1:
     print("upcoming match already exists.")
@@ -20,6 +21,7 @@ elif new_upcoming == 0:
     print("upcoming match added successfully.")
 
 # Example using get_all_matches
+print("Get all matches: ")
 print(db.get_all_matches())
 
 # Example using get_upcoming_matches_by_id

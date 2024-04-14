@@ -48,7 +48,7 @@ new_bet = db.add_new_bet(
     settled=0
 )
 
-#Add test bets
+#Add test matches for settled bets
 test_bet1 = db.add_new_bet(
     username='fart',
     par_id="BostonCharlotteApr 12",
@@ -57,6 +57,44 @@ test_bet1 = db.add_new_bet(
     wager=10,
     settled=1
 )
+
+test_bet2 =  db.add_new_bet(
+    username='fart',
+    par_id="Houston AstrosTexas RangersApr 12",
+    win=1,
+    odds=200,
+    wager=20,
+    settled=1
+)
+
+#Add test matches for active bets
+test_bet3 = db.add_new_bet(
+    username='fart',
+    par_id= "Seattle KrakenSt. Louis BluesApr 14",
+    win=1,
+    odds=500,
+    wager=30,
+    settled=0
+)
+
+test_bet4 =  db.add_new_bet(
+    username='fart',
+    par_id="Chicago BullsNew York KnicksApr 14",
+    win=1,
+    odds=200,
+    wager=20,
+    settled=0
+)
+
+test_bet5 =  db.add_new_bet(
+    username='fart',
+    par_id="Cincinnati RedsChicago White SoxApr 14",
+    win=0,
+    odds=300,
+    wager=10,
+    settled=0
+)
+
 
 if new_bet == 1:
     print("bet already exists.")
