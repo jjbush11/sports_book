@@ -39,4 +39,30 @@ db = ConnectDbBet()
 # # Get all settled bets by user
 # print(db.get_all_settled_bets_by_user('newMan'))
 
+new_bet = db.add_new_bet(
+    username='newMan',
+    par_id="fakeID343",
+    win=0,
+    odds=300,
+    wager=10,
+    settled=0
+)
+
+#Add test bets
+test_bet1 = db.add_new_bet(
+    username='fart',
+    par_id="BostonCharlotteApr 12",
+    win=0,
+    odds=300,
+    wager=10,
+    settled=1
+)
+
+if new_bet == 1:
+    print("bet already exists.")
+elif new_bet == 2:
+    print("Unable to add bet.")
+elif new_bet == 0:
+    print("bet added successfully.")
+
 print(db.join_bet_with_upcoming_matches("james"))

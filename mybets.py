@@ -1,8 +1,12 @@
 import sys
-import login
+import login, user_session_info
+from database import db_bet, db_settled_matches
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QTableWidget
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+
+db1 = db_bet.ConnectDbBet()
+db2 = db_settled_matches.ConnectDbSettledMatch()
 
 class StartWindow(QMainWindow):
     def __init__(self):
@@ -55,20 +59,37 @@ class StartWindow(QMainWindow):
         pastbets_layout.addWidget(pastbets_label)
 
         bets_table = QTableWidget()
-        bets_table.setColumnCount(4)
-        bets_table.setHorizontalHeaderLabels(["Event", "Bet Type", "Amount", "Status"])
+        bets_table.setColumnCount(7)
+        bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Score", "Status", "Odds", "Wager", "Result"])
         bets_table.setFixedHeight(300)
         bets_table.setFixedWidth(600)
         activebets_layout.addWidget(bets_table)
 
         bets_table1 = QTableWidget()
-        bets_table1.setColumnCount(4)
-        bets_table1.setHorizontalHeaderLabels(["Event", "Bet Type", "Amount", "Status"])
+        bets_table1.setColumnCount(7)
+        bets_table1.setHorizontalHeaderLabels(["Sport", "Teams", "Score", "Status", "Odds", "Wager", "Result"])
         bets_table1.setFixedHeight(300)
         bets_table1.setFixedWidth(600)
 
         pastbets_layout.addWidget(bets_table1)
 
+        self.get_past_bets()
+        #self.get_active_bets()
+
+    def get_past_bets(self):
+        bets = db1.get_all_settled_bets_by_user(user_session_info.session_username)
+        bets_list = []
+
+        for bet in bets:
+            settled_match = db2.get_settled_matches_by_id(bet[1])
+            settled_match = list(settled_match)
+            bet = list(bet)
+            bets_list.append(bet + settled_match)
+        
+        print(bets_list)
+            
+    def get_active_bets(self):
+        bets = db1.get_all_active_bets_by_user(user_session_info.session_username)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
