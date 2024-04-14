@@ -1,52 +1,44 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLineEdit, QPushButton, QLabel, QMessageBox
+import sys
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
 
-class SignUpWindow(QWidget):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
 
-    def initUI(self):
-        # Layout
-        layout = QVBoxLayout()
+        self.setWindowTitle("Simple Table Example")
+        self.setGeometry(100, 100, 600, 400)
 
-        # Username field
-        self.username = QLineEdit(self)
-        self.username.setPlaceholderText("Enter your username")
-        layout.addWidget(self.username)
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
 
-        # Password field
-        self.password = QLineEdit(self)
-        self.password.setPlaceholderText("Enter your password")
-        self.password.setEchoMode(QLineEdit.EchoMode.Password)
-        layout.addWidget(self.password)
+        self.layout = QVBoxLayout()
+        self.central_widget.setLayout(self.layout)
 
-        # Confirm password field
-        self.confirm_password = QLineEdit(self)
-        self.confirm_password.setPlaceholderText("Confirm your password")
-        self.confirm_password.setEchoMode(QLineEdit.EchoMode.Password)
-        layout.addWidget(self.confirm_password)
+        self.table_widget = QTableWidget()
+        self.layout.addWidget(self.table_widget)
 
-        # Submit button
-        self.submit_button = QPushButton('Sign Up', self)
-        self.submit_button.clicked.connect(self.check_passwords)
-        layout.addWidget(self.submit_button)
+        # Set the number of rows and columns
+        self.table_widget.setRowCount(5)
+        self.table_widget.setColumnCount(3)
+        self.table_widget.setColumnWidth(0, 200)
+        self.table_widget.setColumnWidth(1, 200)
+        self.table_widget.setColumnWidth(2, 200)
 
-        # Set layout
-        self.setLayout(layout)
-        self.setWindowTitle("Sign Up")
 
-    def check_passwords(self):
-        if self.password.text() == self.confirm_password.text():
-            QMessageBox.information(self, 'Success', 'Signup successful!')
-        else:
-            QMessageBox.warning(self, 'Error', 'Passwords do not match.')
+        # Populate the table with some data
+        data = [
+            ("Item 1", "Description 1", "$10.00"),
+            ("Item 2", "Description 2", "$20.00"),
+            ("Item 3", "Description 3", "$30.00"),
+            ("Item 4", "Description 4", "$40.00"),
+            ("Item 5", "Description 5", "$50.00"),
+        ]
+        for row, item in enumerate(data):
+            for column, value in enumerate(item):
+                self.table_widget.setItem(row, column, QTableWidgetItem(value))
 
-# Run the application
-def main():
-    app = QApplication([])
-    window = SignUpWindow()
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = MainWindow()
     window.show()
-    app.exec()
-
-if __name__ == '__main__':
-    main()
+    sys.exit(app.exec())

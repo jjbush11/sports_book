@@ -61,11 +61,16 @@ class StartWindow(QMainWindow):
 
         self.bets_table = QTableWidget()
         self.bets_table.setColumnCount(7)
+        self.bets_table.setColumnWidth(0, 200)
+
+        # for column in range(self.bets_table.columnCount()):
+        #     self.bets_table.setColumnWidth(column, 400)
         self.bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Status", "Home Odds", "Away Odds", "Wager", "Payout"])
         self.bets_table.setFixedHeight(300)
         self.bets_table.setFixedWidth(900)
 
         activebets_layout.addWidget(self.bets_table)
+
 
         self.bets_table1 = QTableWidget()
         self.bets_table1.setColumnCount(7)
