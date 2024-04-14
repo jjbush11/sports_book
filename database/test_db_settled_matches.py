@@ -42,4 +42,4 @@ remove = db.remove_settled_match('VikingPatriots')
 if remove == 1:
     print("Settled match does not exist.")
 elif remove == 0:
-    print('Settled match removed.')
+    print('Settled
