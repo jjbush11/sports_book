@@ -7,7 +7,9 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 import on_logon_functions
 
+
 class StartWindow(QMainWindow):
+    #Initializes main window and calls initStartUI() function
     def __init__(self):
         super().__init__()
         self.setGeometry(0, 0, 800, 600)  # Set initial geometry to cover the whole screen
@@ -16,23 +18,27 @@ class StartWindow(QMainWindow):
 
         self.initstartUI()
 
+    #Creates primary window
     def initstartUI(self):
         layout = QVBoxLayout()
         layout.setSpacing(20)
         layout.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)  # Center-align widgets
         self.centralWidget().setLayout(layout)
 
+        #Create fonts to be used
         font1 = QFont()
         font1.setPointSize(16)
 
         font2 = QFont()
         font2.setPointSize(20)
 
+        #Display welcome message
         label_welcome_mess = QLabel("Welcome to our betting app, please login if you have an existing account or sign-up to create a new one")
         label_welcome_mess.setFont(font2)
         
         layout.addWidget(label_welcome_mess)
 
+        #Create Login and Sign-up Buttons
         login_button = QPushButton("Login")
         login_button.setFixedHeight(50)
         login_button.setFont(font2)
@@ -47,17 +53,21 @@ class StartWindow(QMainWindow):
         layout.addWidget(signup_button)
         signup_button.clicked.connect(self.signup_click)
     
+    #Routes to login page when button is clicked
     def login_click(self):
         self.login_window = LoginWindow()
         self.login_window.show()
         self.close()
-    
+
+    #Routes to sign-up page when button is clicked
     def signup_click(self):
         self.signin_window = SignInWindow()
         self.signin_window.show()
         self.close()
+    
 
 class LoginWindow(QMainWindow):
+    #Initializes login window and classes loginUI() function to initialize window
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Login Page")
@@ -67,6 +77,7 @@ class LoginWindow(QMainWindow):
 
         self.loginUI()
 
+    #Creates login page
     def loginUI(self):
         layout = QVBoxLayout()
         layout.setSpacing(20)
@@ -77,6 +88,7 @@ class LoginWindow(QMainWindow):
         font2 = QFont()
         font2.setPointSize(20)
 
+        #Create login "form"
         back_button = QPushButton("Back")
         back_button.setFont(font2)
         back_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
@@ -105,11 +117,13 @@ class LoginWindow(QMainWindow):
         layout.addWidget(submit_button)
         submit_button.clicked.connect(self.submit_click)
 
+    #Routes back to main window when clicked
     def back_click(self):
         self.start_window = StartWindow()
         self.start_window.show()
         self.close()
 
+    #When clicked, checks user credentials in database and if they exist, initialize app and route to app homepage
     def submit_click(self, layout):
         username = self.username.text()
         password = self.password.text()
@@ -133,7 +147,9 @@ class LoginWindow(QMainWindow):
         else:
             QMessageBox.warning(self, 'Error', 'Error: User credentials not found in database, please check your username and password and try again')
 
+
 class SignInWindow(QMainWindow):
+    #Initializes sign-in window and calls signInUI() to create main window
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Sign-Up Page")
@@ -142,7 +158,8 @@ class SignInWindow(QMainWindow):
         self.setStyleSheet("background-color: #f0f0f0;")  # Set background color
 
         self.signInUI()
-
+    
+    #Creates sign-in page
     def signInUI(self):
         layout = QVBoxLayout()
         layout.setSpacing(20)
@@ -152,12 +169,12 @@ class SignInWindow(QMainWindow):
         font2 = QFont()
         font2.setPointSize(20)
 
+        #Create sign-in form
         back_button = QPushButton("Back")
         back_button.setFont(font2)
         back_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         layout.addWidget(back_button)
         back_button.clicked.connect(self.back_click)
-
 
         user_label = QLabel("Create a username: ")
         user_label.setFont(font2)
@@ -189,11 +206,13 @@ class SignInWindow(QMainWindow):
         layout.addWidget(submit_button)
         submit_button.clicked.connect(self.submit_click)
 
+    #Routes back to main window when clicked
     def back_click(self):
         self.start_window = StartWindow()
         self.start_window.show()
         self.close()     
-
+    
+    #Checks to see if passwords match and enter new login credentials into database
     def submit_click(self):
         username = self.username.text()
         password = self.password.text()  
@@ -216,6 +235,7 @@ class SignInWindow(QMainWindow):
                 case _:
                     QMessageBox.warning(self, 'Error', 'Error: Unknown error creating user credentials, please try again')
 
+    #Checks if passwords match
     def check_match(self, password1, password2):
         if (password1 == password2):
             return True

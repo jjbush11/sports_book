@@ -9,6 +9,7 @@ from PyQt6.QtCore import Qt
 db = db_connect_user.ConnectDbUser()
 
 class Ui_MainWindow(QMainWindow):
+    #Initializes main homepage window
     def __init__(self):
         super().__init__()
         self.setGeometry(0, 0, 800, 600)  # Set initial geometry to cover the whole screen
@@ -17,6 +18,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.initstartUI()
 
+    #Updates user's displayed balance
     def getUserBalance(self, username):
         user_rows = db.get_row_by_user(username)
         if user_rows is None:
@@ -85,21 +87,25 @@ class Ui_MainWindow(QMainWindow):
 
         main_layout.addLayout(sports_layout)
 
+    #Routes to nba window to place bets on nba games
     def nba_click(self):
         self.nba_window = nba_home_UI.Ui_MainWindow()
         self.nba_window.show()
         self.close()
-        
+    
+    #Routes to nhl window to place bets on nhl games
     def nhl_click(self):
         self.nhl_window = nhl_home_UI.Ui_MainWindow()
         self.nhl_window.show()
         self.close()
 
+    #Routes to mlb window to place bets on mlb games
     def mlb_click(self):
         self.mlb_window = mlb_home_UI.Ui_MainWindow()
         self.mlb_window.show()
         self.close()
 
+    #Routes to mybets page
     def mybets_click(self):
         self.mybets_window = mybets.StartWindow()
         self.mybets_window.show()

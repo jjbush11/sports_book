@@ -19,6 +19,7 @@ class StartWindow(QMainWindow):
 
         self.initstartUI()
 
+    #Updates users displayed balance
     def getUserBalance(self, username):
         user_rows = db.get_row_by_user(username)
         if user_rows is None:
@@ -182,6 +183,7 @@ class StartWindow(QMainWindow):
 
         return overall_list
 
+    #Functions to populate tables
     def add_rows_table1(self, position, row):
         self.bets_table1.insertRow(position)
         accumulator = 0
@@ -198,6 +200,7 @@ class StartWindow(QMainWindow):
             self.bets_table.setItem(position, accumulator, item )
             accumulator += 1
 
+    #Routes back to app homepage when clicked
     def home_clicked(self):
         self.home_window = home_window_UI.Ui_MainWindow()
         self.home_window.show()
