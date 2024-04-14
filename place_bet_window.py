@@ -9,15 +9,16 @@ class PlaceBetInputWindow(QWidget):
     id = -1
     win = 0
     odds = 0
-    settled = 0
+    team = ""
 
-    def __init__(self, username, id, odds):
+    def __init__(self, username, id, odds, team):
         super().__init__()
         self.initUI()
 
         self.username = username
         self.id = id
-        self.odds = odds
+        self.odds = odds,
+        self.team = team
 
     def initUI(self):
         self.setWindowTitle('Place Bet')
@@ -63,6 +64,7 @@ class PlaceBetInputWindow(QWidget):
                         par_id=self.id,
                         win=self.win,
                         odds=self.odds,
+                        team=self.team,
                         wager=wager,
                         settled=0
                     )
@@ -83,5 +85,5 @@ class PlaceBetInputWindow(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = PlaceBetInputWindow('jjbush', 'FakeTeamApr 12', -200)
+    window = PlaceBetInputWindow('jjbush', 'FakeTeamApr 12', -200, "fakeTeam")
     sys.exit(app.exec())
