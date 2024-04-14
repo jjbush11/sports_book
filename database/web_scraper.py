@@ -18,7 +18,6 @@ MLB_MONEYLINE_URL = ("https://vegas-odds.com/mlb/odds/")
 
 
 def main() -> int:
-    print(grab_scores(NBA_SCORES_URL))
     return 0
 
 
