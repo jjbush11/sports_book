@@ -1,21 +1,22 @@
+
+from db_upcoming_matches import ConnectDbUpcomingMatch
 import web_scraper
-from db_upcoming_matches import ConnectDbMatch
 from web_scraper import grab_scores, grab_moneylines
 
-db_match = ConnectDbMatch()
+db_upcoming = ConnectDbUpcomingMatch()
 
-def display_upcoming_matches():
-    all_matches = db_match.get_all_matches()
-    for match in all_matches:
-        db_match.check_and_set_if_match_settled(match.id)
-        print(match.id)
-        if match.is_settled:
-            print("Settled Game: " + match.team1 + " vs " + match.team2)
-        elif not match.is_settled:
-            print("Not settled Game: " + match.team1 + " vs " + match.team2)
+# def display_upcoming_matches():
+#     all_matches = db_upcoming.get_all_matches()
+#     for match in all_matches:
+#         db_upcoming.check_and_set_if_match_settled(match.id)
+#         print(match.id)
+#         if match.is_settled:
+#             print("Settled Game: " + match.team1 + " vs " + match.team2)
+#         elif not match.is_settled:
+#             print("Not settled Game: " + match.team1 + " vs " + match.team2)
 
 
-def upload_current_matches_and_moneyline_db():
+def upcoming_matches_to_db():
 
     # List of sport scores urls
     scores_links = [web_scraper.NBA_SCORES_URL, web_scraper.NHL_SCORES_URL,
@@ -24,7 +25,7 @@ def upload_current_matches_and_moneyline_db():
     odds_links = [web_scraper.NBA_MONEYLINE_URL, web_scraper.NHL_MONEYLINE_URL,
                   web_scraper.MLB_MONEYLINE_URL]
     # Create db obj to connect to sport match up table
-    db_match = ConnectDbMatch()
+    db_upcoming = ConnectDbUpcomingMatch()
 
     # Loop through getting scores links
     for i in range(0, len(scores_links)):
@@ -52,9 +53,10 @@ def upload_current_matches_and_moneyline_db():
             # print(winning_teams[j] + ': ' + str(winning_scores[j]))
             # print(losing_teams[j] + ': '+ str(losing_scores[j]))
 
-            print(away_teams[j] + '(' + str(away_odds[j])+')')
-            print(str(home_teams[j]) + '(' + str(home_odds[j])+')')
+            # print(away_teams[j] + '(' + str(away_odds[j])+')')
+            # print(str(home_teams[j]) + '(' + str(home_odds[j])+')')
             print(datetimes[j]) # need to format date to fit correctly
+            print("time: " + datetimes[j][len(datetimes[j])-5:len(datetimes[j])])
 
         for j in range(0, len(winning_teams)):
             pass
@@ -63,6 +65,4 @@ def upload_current_matches_and_moneyline_db():
 
 
 
-
-upload_current_matches_and_moneyline_db()
-  
+upcoming_matches_to_db()
