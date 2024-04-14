@@ -1,10 +1,11 @@
 import sys
-import login, user_session_info
-from database import db_bet, db_settled_matches, db_upcoming_matches
+import login, user_session_info, home_window_UI
+from database import db_bet, db_settled_matches, db_upcoming_matches, db_connect_user
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QTableWidget, QTableWidgetItem
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 
+db = db_connect_user.ConnectDbUser()
 db1 = db_bet.ConnectDbBet()
 db2 = db_settled_matches.ConnectDbSettledMatch()
 db3 = db_upcoming_matches.ConnectDbUpcomingMatch()
@@ -18,11 +19,21 @@ class StartWindow(QMainWindow):
 
         self.initstartUI()
 
+    def getUserBalance(self, username):
+        user_rows = db.get_row_by_user(username)
+        if user_rows is None:
+            print ("failed")
+        return user_rows
+
     def initstartUI(self):
+        
+        user_info = self.getUserBalance(user_session_info.session_username)
+        balance = user_info[2]
+        balance_string = str(balance)
+
         #Create font
         font = QFont()
         font.setPointSize(25)
-
 
         ##Create main layout
         layout = QVBoxLayout()
@@ -49,10 +60,13 @@ class StartWindow(QMainWindow):
         home_button = QPushButton("Home")
         home_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(home_button)
+        home_button.clicked.connect(self.home_clicked)
+
         mybets_button = QPushButton("My Bets")
-        mybets_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
+        mybets_button.setStyleSheet("padding: 10px 20px; background-color: Indigo; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(mybets_button)
-        balance_button = QPushButton("Balance: $1205")
+
+        balance_button = QPushButton("Balance: $" + balance_string)
         balance_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(balance_button)
 
@@ -183,6 +197,11 @@ class StartWindow(QMainWindow):
             item = QTableWidgetItem(col)
             self.bets_table.setItem(position, accumulator, item )
             accumulator += 1
+
+    def home_clicked(self):
+        self.home_window = home_window_UI.Ui_MainWindow()
+        self.home_window.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

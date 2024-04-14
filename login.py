@@ -1,10 +1,11 @@
-import homepage
+import home_window_UI
 import user_session_info
 from database import db_connect_user
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QMessageBox
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
+import on_logon_functions
 
 class StartWindow(QMainWindow):
     def __init__(self):
@@ -120,8 +121,13 @@ class LoginWindow(QMainWindow):
             #If passed, route to main application window
             #Set global username
             user_session_info.session_username = username
-            #Call init functions here
-            self.home_window = homepage.StartWindow()
+
+            # Initialization functions
+            on_logon_functions.check_balance(username)
+            on_logon_functions.update_tables()
+            on_logon_functions.check_if_settled_and_pay(username)
+
+            self.home_window = home_window_UI.Ui_MainWindow()
             self.home_window.show()
             self.close()
         else:
