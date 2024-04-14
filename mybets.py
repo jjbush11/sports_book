@@ -64,10 +64,10 @@ class StartWindow(QMainWindow):
 
         self.bets_table = QTableWidget()
         activebets_layout.addWidget(self.bets_table)
-        self.bets_table.setColumnCount(7)
-        self.bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Status", "Home Odds", "Away Odds", "Wager", "Payout"])
+        self.bets_table.setColumnCount(8)
+        self.bets_table.setHorizontalHeaderLabels(["Sport", "Home", "Away", "Bet Placed", "Odds", "Wager", "Payout", "Status"])
         for column in range(self.bets_table.columnCount()):
-            self.bets_table.setColumnWidth(column, 183)
+            self.bets_table.setColumnWidth(column, 160)
         self.bets_table.setFixedHeight(300)
         self.bets_table.setFixedWidth(1300)
 
@@ -79,10 +79,10 @@ class StartWindow(QMainWindow):
 
         self.bets_table1 = QTableWidget()
         pastbets_layout.addWidget(self.bets_table1)
-        self.bets_table1.setColumnCount(7)
-        self.bets_table1.setHorizontalHeaderLabels(["Sport", "Teams", "Score", "Status", "Odds", "Wager", "Payout"])
+        self.bets_table1.setColumnCount(9)
+        self.bets_table1.setHorizontalHeaderLabels(["Sport", "Home", "Away", "Score", "Bet Placed", "Odds", "Wager", "Payout", "Status"])
         for column in range(self.bets_table.columnCount()):
-            self.bets_table1.setColumnWidth(column, 183)
+            self.bets_table1.setColumnWidth(column, 147)
         self.bets_table1.setFixedHeight(300)
         self.bets_table1.setFixedWidth(1300)
 
@@ -123,16 +123,18 @@ class StartWindow(QMainWindow):
         for bet in bets_list:
             bet = list(map(str, bet))
             sorted_bets_list = []
+            sorted_bets_list.append(bet[14])
             sorted_bets_list.append(bet[12])
-            sorted_bets_list.append(bet[10] + " vs. " + bet[8])
-            sorted_bets_list.append(bet[11] + "-" + bet[9])
+            sorted_bets_list.append(bet[10])
+            sorted_bets_list.append(bet[13] + "-" + bet[11])
+            sorted_bets_list.append(bet[4])
+            sorted_bets_list.append(bet[3])
+            sorted_bets_list.append(bet[5])
+            sorted_bets_list.append(bet[6])
             if (bet[2]):
                 sorted_bets_list.append("Bet won")
             else:
                 sorted_bets_list.append("Bet lost")
-            sorted_bets_list.append(bet[3])
-            sorted_bets_list.append(bet[4])
-            sorted_bets_list.append(bet[5])
             overall_list.append(sorted_bets_list)
 
         return overall_list
@@ -153,13 +155,14 @@ class StartWindow(QMainWindow):
         for bet in bets_list:
             bet = list(map(str, bet))
             sorted_bets_list = []
-            sorted_bets_list.append(bet[14])
-            sorted_bets_list.append(bet[8] + " vs. " + bet[8])
-            sorted_bets_list.append("Pending")
-            sorted_bets_list.append(bet[9])
-            sorted_bets_list.append(bet[11])
+            sorted_bets_list.append(bet[16])
+            sorted_bets_list.append(bet[10])
+            sorted_bets_list.append(bet[12])
             sorted_bets_list.append(bet[4])
+            sorted_bets_list.append(bet[3])
             sorted_bets_list.append(bet[5])
+            sorted_bets_list.append(bet[6])
+            sorted_bets_list.append("Pending")
 
             overall_list.append(sorted_bets_list)
 
