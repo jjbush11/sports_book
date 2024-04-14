@@ -8,6 +8,9 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 
 import home_window_UI
 from database import db_upcoming_matches
+from place_bet_window import PlaceBetInputWindow
+import user_session_info
+
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 
@@ -109,6 +112,14 @@ class Ui_MainWindow(QMainWindow):
         self.home_window = home_window_UI.Ui_MainWindow()
         self.home_window.show()
         self.close()
+
+    def place_bet_home_games(self, game):
+        self.place_bet_window = PlaceBetInputWindow(user_session_info.session_username, game.id, game.home_odds, game.home)
+        self.place_bet_window.show()
+
+    def place_bet_away_games(self, game):
+        self.place_bet_window = PlaceBetInputWindow(user_session_info.session_username, game.id, game.away_odds, game.away)
+        self.place_bet_window.show()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

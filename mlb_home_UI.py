@@ -108,7 +108,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.home_button.clicked.connect(self.home_button_clicked)
 
-
         self.retranslateUi(self)
         QtCore.QMetaObject.connectSlotsByName(self)
 
