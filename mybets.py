@@ -19,28 +19,33 @@ class StartWindow(QMainWindow):
         self.initstartUI()
 
     def initstartUI(self):
-
+        #Create font
         font = QFont()
         font.setPointSize(25)
 
+
+        ##Create main layout
         layout = QVBoxLayout()
         layout.setSpacing(20)
         self.centralWidget().setLayout(layout)
 
+
+        ##Create child layouts
         navbar_layout = QHBoxLayout()
         navbar_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-
-        layout.addLayout(navbar_layout)
 
         activebets_layout = QVBoxLayout()
 
         pastbets_layout = QVBoxLayout()
         
 
+        #Add child layouts to main layout
         layout.addLayout(navbar_layout)
         layout.addLayout(activebets_layout)
         layout.addLayout(pastbets_layout)
 
+
+        #Nav bar
         home_button = QPushButton("Home")
         home_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(home_button)
@@ -51,41 +56,48 @@ class StartWindow(QMainWindow):
         balance_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(balance_button)
 
+
+        #Active bets table
         activebets_label = QLabel("Active Bets")
         activebets_label.setFont(font)
         activebets_layout.addWidget(activebets_label)
 
+        self.bets_table = QTableWidget()
+        activebets_layout.addWidget(self.bets_table)
+        self.bets_table.setColumnCount(7)
+        self.bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Status", "Home Odds", "Away Odds", "Wager", "Payout"])
+        for column in range(self.bets_table.columnCount()):
+            self.bets_table.setColumnWidth(column, 183)
+        self.bets_table.setFixedHeight(300)
+        self.bets_table.setFixedWidth(1300)
+
+
+        #Past bets table
         pastbets_label = QLabel("Past Bets")
         pastbets_label.setFont(font)
         pastbets_layout.addWidget(pastbets_label)
 
-        self.bets_table = QTableWidget()
-        self.bets_table.setColumnCount(7)
-        self.bets_table.setColumnWidth(0, 200)
-
-        # for column in range(self.bets_table.columnCount()):
-        #     self.bets_table.setColumnWidth(column, 400)
-        self.bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Status", "Home Odds", "Away Odds", "Wager", "Payout"])
-        self.bets_table.setFixedHeight(300)
-        self.bets_table.setFixedWidth(900)
-
-        activebets_layout.addWidget(self.bets_table)
-
-
         self.bets_table1 = QTableWidget()
+        pastbets_layout.addWidget(self.bets_table1)
         self.bets_table1.setColumnCount(7)
         self.bets_table1.setHorizontalHeaderLabels(["Sport", "Teams", "Score", "Status", "Odds", "Wager", "Payout"])
+        for column in range(self.bets_table.columnCount()):
+            self.bets_table1.setColumnWidth(column, 183)
         self.bets_table1.setFixedHeight(300)
-        self.bets_table1.setFixedWidth(900)
+        self.bets_table1.setFixedWidth(1300)
 
-        pastbets_layout.addWidget(self.bets_table1)
 
-        #Getting data for settled matches
+        #Get data for tables
+
+        #Get data for settled matches
         past_bets = self.get_past_bets()
 
-        #Getting data for active matches
+        #Get data for active matches
         current_bets = self.get_active_bets()
         
+
+        #Create rows and populate table
+
         #Creating rows for settled matches
         for i in range(len(past_bets)):
             self.add_rows_table1(i, past_bets[i])
@@ -93,6 +105,8 @@ class StartWindow(QMainWindow):
         #Creating rows for active matches
         for i in range(len(current_bets)):
             self.add_rows_table2(i, current_bets[i])
+
+
 
     def get_past_bets(self):
         bets = db1.get_all_settled_bets_by_user(user_session_info.session_username)
