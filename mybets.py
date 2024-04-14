@@ -59,12 +59,13 @@ class StartWindow(QMainWindow):
         pastbets_label.setFont(font)
         pastbets_layout.addWidget(pastbets_label)
 
-        bets_table = QTableWidget()
-        bets_table.setColumnCount(7)
-        bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Score", "Status", "Odds", "Wager", "Result"])
-        bets_table.setFixedHeight(300)
-        bets_table.setFixedWidth(900)
-        activebets_layout.addWidget(bets_table)
+        self.bets_table = QTableWidget()
+        self.bets_table.setColumnCount(7)
+        self.bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Score", "Status", "Odds", "Wager", "Result"])
+        self.bets_table.setFixedHeight(300)
+        self.bets_table.setFixedWidth(900)
+
+        activebets_layout.addWidget(self.bets_table)
 
         self.bets_table1 = QTableWidget()
         self.bets_table1.setColumnCount(7)
@@ -82,11 +83,11 @@ class StartWindow(QMainWindow):
         
         #Creating rows for settled matches
         for i in range(len(past_bets)):
-            self.add_rows(i, past_bets[i])
+            self.add_rows_table1(i, past_bets[i])
 
-        # #Creating rows for active matches
-        # for i in range(len(current_bets)):
-        #     self.add_rows(i, current_bets[i])
+        #Creating rows for active matches
+        for i in range(len(current_bets)):
+            self.add_rows_table2(i, current_bets[i])
 
     def get_past_bets(self):
         bets = db1.get_all_settled_bets_by_user(user_session_info.session_username)
@@ -147,12 +148,20 @@ class StartWindow(QMainWindow):
 
         return overall_list
 
-    def add_rows(self, position, row):
+    def add_rows_table1(self, position, row):
         self.bets_table1.insertRow(position)
         accumulator = 0
         for col in row:
             item = QTableWidgetItem(col)
             self.bets_table1.setItem(position, accumulator, item )
+            accumulator += 1
+
+    def add_rows_table2(self, position, row):
+        self.bets_table.insertRow(position)
+        accumulator = 0
+        for col in row:
+            item = QTableWidgetItem(col)
+            self.bets_table.setItem(position, accumulator, item )
             accumulator += 1
 
 if __name__ == "__main__":
