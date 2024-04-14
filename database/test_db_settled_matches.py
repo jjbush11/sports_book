@@ -8,7 +8,8 @@ new_settled = db.add_new_settled_match(
     away='Minn Vikings',
     away_score=24,
     home='New England Patriots',
-    home_score=21
+    home_score=21,
+    sport="NFL"
 )
 if new_settled == 1:
     print("Settled match already exists.")
