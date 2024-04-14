@@ -28,9 +28,11 @@ class ConnectDbBet:
                 Column('id', String(60), primary_key=True),
                 Column('win', Boolean),
                 Column('odds', Integer),
+                Column('team', String(60)),
                 Column('wager', Integer),
                 Column('return_val', Float),
-                Column('settled', Boolean)
+                Column('settled', Boolean),
+                Column('is_payed', Boolean)
             )
 
         except Exception as e:
@@ -77,7 +79,7 @@ class ConnectDbBet:
             return True
         return False
 
-    def add_new_bet(self, username, par_id, win, odds, wager, settled) -> int:
+    def add_new_bet(self, username, par_id, win, odds, team, wager, settled=0, is_payed=0) -> int:
         """
         :param username:
         :param par_id:
@@ -103,9 +105,11 @@ class ConnectDbBet:
             id=par_id,
             win=win,
             odds=odds,
+            team=team,
             wager=wager,
             return_val=return_val,
-            settled=settled
+            settled=settled,
+            is_payed=is_payed
         )
 
         # Insert the new user into the user_info table

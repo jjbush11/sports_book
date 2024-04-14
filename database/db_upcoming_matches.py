@@ -78,7 +78,7 @@ class ConnectDbUpcomingMatch:
         :return: bool
         """
         rows = self.get_upcoming_matches_by_id(par_id)
-        if rows != None:
+        if rows is not None:
             return True
         return False
 
