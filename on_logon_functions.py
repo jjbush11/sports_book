@@ -1,6 +1,6 @@
 # Logon behavior functions file
 from database.db_connect_user import ConnectDbUser
-from database.web_scraper import main
+from database.matches_to_database import main
 from database.db_bet import ConnectDbBet
 from database.db_settled_matches import ConnectDbSettledMatch
 from database.db_connect_user import ConnectDbUser
