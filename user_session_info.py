@@ -1,1 +1,2 @@
-session_username = ""
+session_username = "fart"
+
