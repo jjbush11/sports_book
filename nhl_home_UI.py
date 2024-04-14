@@ -66,16 +66,16 @@ class Ui_MainWindow(QMainWindow):
                 self.horizontalLayout_2.addWidget(self.matchup_label, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
 
                 # create moneyline button for 1st team
-                self.moneyline_teamA = QtWidgets.QPushButton(parent=self.gamebox)
-                self.moneyline_teamA.setObjectName("moneyline_teamA")
-                self.moneyline_teamA.setText(f"{game[1]}: {game[2]}")
-                self.horizontalLayout_2.addWidget(self.moneyline_teamA)
+                self.moneyline_home = QtWidgets.QPushButton(parent=self.gamebox)
+                self.moneyline_home.setObjectName("moneyline_home")
+                self.moneyline_home.setText(f"{game[1]}: {game[2]}")
+                self.horizontalLayout_2.addWidget(self.moneyline_home)
 
                 # create moneyline button for 2nd team
-                self.moneyline_teamB = QtWidgets.QPushButton(parent=self.gamebox)
-                self.moneyline_teamB.setObjectName("moneyline_teamB")
-                self.horizontalLayout_2.addWidget(self.moneyline_teamB)
-                self.moneyline_teamB.setText(f"{game[3]}: {game[4]}")
+                self.moneyline_away = QtWidgets.QPushButton(parent=self.gamebox)
+                self.moneyline_away.setObjectName("moneyline_teamB")
+                self.horizontalLayout_2.addWidget(self.moneyline_away)
+                self.moneyline_away.setText(f"{game[3]}: {game[4]}")
 
                 # add the gamebox to the scroll area
                 self.verticalLayout_2.addWidget(self.gamebox)
