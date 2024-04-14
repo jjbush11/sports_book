@@ -3,13 +3,6 @@ from sqlalchemy import (create_engine, MetaData, Table,
                         insert, update, Date, Integer,
                         Boolean, Time, select, delete)
 
-from db_upcoming_matches import ConnectDbUpcomingMatch
-from sqlalchemy.orm import sessionmaker
-
-import datetime
-
-
-
 class ConnectDbBet:
     """
     ConnectDb - forms connection to database.
@@ -25,10 +18,6 @@ class ConnectDbBet:
             # Create engine and connect
             db_engine = create_engine(self.db_url)
             self.connection = db_engine.connect()
-
-            # Initializing session for join query
-            Session = sessionmaker(bind=db_engine)
-            self.session = Session()
 
             metadata_bet = MetaData()
             # Set up sport table framework
@@ -96,7 +85,7 @@ class ConnectDbBet:
         :param odds:
         :param wager:
         :param settled:
-        :return:
+        :return: returns 1 if bet already exists, 2 if addition fials and 0 if successful
         """
         # Check that username does not already exist
         if self.get_bet_by_id(par_id):
