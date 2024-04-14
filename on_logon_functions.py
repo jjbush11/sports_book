@@ -6,7 +6,6 @@ from database.db_settled_matches import ConnectDbSettledMatch
 from database.db_connect_user import ConnectDbUser
 
 
-
 # Check the user's balance. Set it to $5 if it is less than $5.
 def check_balance(username: str) -> None:
     user = ConnectDbUser()
@@ -79,7 +78,19 @@ def check_if_settled_and_pay(username: str) -> None:
             db_bets.edit_bet_row(bet.id, username,'is_payed', 1)
 
 
+# Check the current time. Compare this to an input match time.
+def check_time(match_time: str) -> bool:
+    # Get the minute and hour of current & game times
+    current_hour = int(datetime.datetime.now().strftime("%H"))
+    current_minute = int(datetime.datetime.now().strftime("%M"))
+    match_hour = int(match_time[:match_time.find(":")])
+    match_minute = int(match_time[match_time.find(":") + 1:])
 
-
-
+    # If the current time is later than the given time, return False
+    if current_hour > match_hour:
+        return False
+    elif current_hour == match_hour:
+        if current_minute > match_minute:
+            return False
+    return True
 

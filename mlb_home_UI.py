@@ -44,7 +44,7 @@ class Ui_MainWindow(QMainWindow):
 
         # Create game objects dynamically
         for game in db.get_all_matches():
-            if game[7] == 'NHL':
+            if game[7] == 'MLB':
 
                 # create gamebox object. this is where game contents will be saved
                 self.gamebox = QtWidgets.QGroupBox(parent=self.scrollAreaWidgetContents_2)
@@ -113,8 +113,7 @@ class Ui_MainWindow(QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.page_title.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">NHL Home</span></p></body></html>"))
-        self.matchup_label.setText(_translate("MainWindow", "Team A vs Team B"))
+        self.page_title.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">MLB Home</span></p></body></html>"))
         self.balance_button.setText(_translate("MainWindow", "{balance}"))
         self.home_button.setText(_translate("MainWindow", "Home"))
         self.mybets_button.setText(_translate("MainWindow", "My Bets"))

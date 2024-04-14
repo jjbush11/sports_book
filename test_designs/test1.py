@@ -1,44 +1,39 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
 
-class MainWindow(QMainWindow):
+import sys
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QTableWidget, QTableWidgetItem, QSizePolicy
+from PyQt6.QtGui import QFont
+from PyQt6.QtCore import Qt
+
+class StartWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.setGeometry(0, 0, 800, 600)  # Set initial geometry to cover the whole screen
+        self.setCentralWidget(QWidget())  # Central widget for the layout
+        self.setStyleSheet("background-color: #f0f0f0;")  # Set background color
 
-        self.setWindowTitle("Simple Table Example")
-        self.setGeometry(100, 100, 600, 400)
+        self.initstartUI()
 
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+    def initstartUI(self):
 
-        self.layout = QVBoxLayout()
-        self.central_widget.setLayout(self.layout)
+        font = QFont()
+        font.setPointSize(25)
 
-        self.table_widget = QTableWidget()
-        self.layout.addWidget(self.table_widget)
-
-        # Set the number of rows and columns
-        self.table_widget.setRowCount(5)
-        self.table_widget.setColumnCount(3)
-        self.table_widget.setColumnWidth(0, 200)
-        self.table_widget.setColumnWidth(1, 200)
-        self.table_widget.setColumnWidth(2, 200)
+        layout = QVBoxLayout()
+        layout.setSpacing(20)
+        self.centralWidget().setLayout(layout)
 
 
-        # Populate the table with some data
-        data = [
-            ("Item 1", "Description 1", "$10.00"),
-            ("Item 2", "Description 2", "$20.00"),
-            ("Item 3", "Description 3", "$30.00"),
-            ("Item 4", "Description 4", "$40.00"),
-            ("Item 5", "Description 5", "$50.00"),
-        ]
-        for row, item in enumerate(data):
-            for column, value in enumerate(item):
-                self.table_widget.setItem(row, column, QTableWidgetItem(value))
+        self.bets_table = QTableWidget()
+        layout.addWidget(self.bets_table)
+
+        self.bets_table.setColumnCount(7)
+        self.bets_table.setColumnWidth(0, 500)
+        # for column in range(self.bets_table.columnCount()):
+        #     self.bets_table.setColumnWidth(column, 400)
+        self.bets_table.setHorizontalHeaderLabels(["Sport", "Teams", "Status", "Home Odds", "Away Odds", "Wager", "Payout"])
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
+    window = StartWindow()
+    window.showFullScreen()  # Show the window in fullscreen mode
     sys.exit(app.exec())
