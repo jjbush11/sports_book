@@ -17,7 +17,7 @@ class PlaceBetInputWindow(QWidget):
 
         self.username = username
         self.id = id
-        self.odds = odds,
+        self.odds = odds
         self.team = team
 
     def initUI(self):
@@ -85,5 +85,5 @@ class PlaceBetInputWindow(QWidget):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = PlaceBetInputWindow('jjbush', 'FakeTeamApr 12', -200, "fakeTeam")
+    window = PlaceBetInputWindow('jjbush', 'Miami MarlinsAtlanta BravesApr 12', 300, "Atlanta Braves")
     sys.exit(app.exec())

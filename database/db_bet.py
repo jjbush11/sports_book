@@ -52,7 +52,7 @@ class ConnectDbBet:
         except:
             return None
 
-    def get_bet_by_id(self, par_id):
+    def get_bet_by_id(self, par_id, username):
         """
         Takes id and returns the row of the bet up
         :param: par_id, str
@@ -60,7 +60,8 @@ class ConnectDbBet:
         if bet up not found returns None
         """
         try:
-            query = self.bet_table.select().where(self.bet_table.c.id == par_id)
+            query = self.bet_table.select().where(self.bet_table.c.id == par_id,
+                                                  self.bet_table.c.username == username)
             result = self.connection.execute(query)
             rows = result.fetchall()[0]
 
@@ -68,13 +69,13 @@ class ConnectDbBet:
         except:
             return None
 
-    def does_bet_exist(self, par_id) -> bool:
+    def does_bet_exist(self, par_id, username) -> bool:
         """
         Checks if a given id exists in the db
         :param par_id: str
         :return: bool
         """
-        rows = self.get_bet_by_id(par_id)
+        rows = self.get_bet_by_id(par_id, username)
         if rows != None:
             return True
         return False
@@ -90,7 +91,7 @@ class ConnectDbBet:
         :return: returns 1 if bet already exists, 2 if addition fials and 0 if successful
         """
         # Check that username does not already exist
-        if self.get_bet_by_id(par_id):
+        if self.get_bet_by_id(par_id, username):
             return 1
 
         return_val = -1
@@ -117,7 +118,7 @@ class ConnectDbBet:
         self.connection.commit()
 
         # Check if user was added
-        if self.get_bet_by_id(par_id):
+        if self.get_bet_by_id(par_id, username):
             return 0
         return 2
 
@@ -126,7 +127,7 @@ class ConnectDbBet:
         :param par_id: str
         """
         # Check that username does not already exist
-        if not self.get_bet_by_id(par_id):
+        if not self.get_bet_by_id(par_id, username):
             return 1
 
         # Generates delete query
@@ -136,7 +137,7 @@ class ConnectDbBet:
         self.connection.execute(del_query)
         self.connection.commit()
 
-    def edit_bet_row(self, par_id, field_to_update, updated_value) -> int:
+    def edit_bet_row(self, par_id, username, field_to_update, updated_value) -> int:
         """
         Edits the desired column of the user given
         :param par_id: str
@@ -146,13 +147,15 @@ class ConnectDbBet:
         :return: int 0 if successful
         """
         # Check if user exits
-        if not self.get_bet_by_id(par_id):
+        if not self.get_bet_by_id(par_id, username):
             return 1
 
         upd = update(self.bet_table)
         item_to_update = upd.values({field_to_update: updated_value})
-        update_query = item_to_update.where(self.bet_table.c.id == par_id)
+        update_query = item_to_update.where(self.bet_table.c.id == par_id,
+                                            self.bet_table.c.username == username)
         self.connection.execute(update_query)
+        self.connection.commit()
 
         return 0
 
