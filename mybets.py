@@ -123,10 +123,8 @@ class StartWindow(QMainWindow):
         overall_list = []
 
         for bet in bets:
-            print(bet)
-            print("\n")
-            print(bet[1])
             active_match = db3.get_upcoming_matches_by_id(bet[1])
+            print(active_match)
             active_match = list(active_match)
             bet = list(bet)
             bets_list.append(bet + active_match)
