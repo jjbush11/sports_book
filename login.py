@@ -120,6 +120,7 @@ class LoginWindow(QMainWindow):
             #If passed, route to main application window
             #Set global username
             user_session_info.session_username = username
+            #Call init functions here
             self.home_window = homepage.StartWindow()
             self.home_window.show()
             self.close()
