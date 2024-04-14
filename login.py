@@ -126,8 +126,6 @@ class LoginWindow(QMainWindow):
         else:
             QMessageBox.warning(self, 'Error', 'Error: User credentials not found in database, please check your username and password and try again')
 
-            
-
 class SignInWindow(QMainWindow):
     def __init__(self):
         super().__init__()
