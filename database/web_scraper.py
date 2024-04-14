@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
+
 # Scores URLs
 NBA_SCORES_URL = (f'https://www.basketball-reference.com/boxscores/'
            f'?year={datetime.now().year}&month={datetime.now().month}&day={datetime.now().day - 1}')

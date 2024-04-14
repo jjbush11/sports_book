@@ -4,6 +4,7 @@ from database.web_scraper import main
 from database.db_bet import ConnectDbBet
 from database.db_settled_matches import ConnectDbSettledMatch
 from database.db_connect_user import ConnectDbUser
+import datetime
 
 
 # Check the user's balance. Set it to $5 if it is less than $5.
@@ -93,4 +94,3 @@ def check_time(match_time: str) -> bool:
         if current_minute > match_minute:
             return False
     return True
-
