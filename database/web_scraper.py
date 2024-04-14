@@ -35,7 +35,10 @@ def grab_scores(url: str) -> [[]]:
 
     # Score sections at the top of the page, still needs parsing
     if url == NBA_SCORES_URL:
-        scores_divs = soup.find_all("div", class_="game_summaries")[0].find_all("div", class_="game_summary expanded nohover")
+        if len(soup.find_all("div", class_="game_summaries")) > 0:
+            scores_divs = soup.find_all("div", class_="game_summaries")[0].find_all("div", class_="game_summary expanded nohover")
+        else:
+            return [[]]
     else:
         scores_divs = soup.find_all("div", class_="game_summary nohover")
 
