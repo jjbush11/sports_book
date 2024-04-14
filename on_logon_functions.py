@@ -1,12 +1,13 @@
 # Logon behavior functions file
 from database.db_connect_user import ConnectDbUser
-from database.matches_to_database import main
+from database.web_scraper import main
 from database.db_bet import ConnectDbBet
 from database.db_settled_matches import ConnectDbSettledMatch
 from sqlalchemy import (create_engine, MetaData, Table,
                         Column, String, Float, JSON,
                         insert, update, Date, Integer,
                         Boolean, Time, select, delete)
+import datetime
 
 
 # Check the user's balance. Set it to $5 if it is less than $5.
@@ -37,4 +38,21 @@ def check_if_settled(username: str) -> None:
         if bet_search is not None:
             # If won -> payout
 
-            bets.bet_table.
+            i = 0
+
+
+# Check the current time. Compare this to an input match time.
+def check_time(match_time: str) -> bool:
+    # Get the minute and hour of current & game times
+    current_hour = int(datetime.datetime.now().strftime("%H"))
+    current_minute = int(datetime.datetime.now().strftime("%M"))
+    match_hour = int(match_time[:match_time.find(":")])
+    match_minute = int(match_time[match_time.find(":") + 1:])
+
+    # If the current time is later than the given time, return False
+    if current_hour > match_hour:
+        return False
+    elif current_hour == match_hour:
+        if current_minute > match_minute:
+            return False
+    return True

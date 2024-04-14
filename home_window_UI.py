@@ -8,9 +8,7 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QApplication
-
-import database.db_settled_matches
-import nhl_home_UI
+import nhl_home_UI, nba_home_UI, mlb_home_UI
 
 class Ui_MainWindow(QMainWindow):
 
@@ -30,7 +28,7 @@ class Ui_MainWindow(QMainWindow):
         self.centralwidget = QtWidgets.QWidget(parent=self)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.verticalLayout_2.setObjectName("verticalLayout_main_groupBox")
         self.label = QtWidgets.QLabel(parent=self.centralwidget)
         self.label.setMaximumSize(QtCore.QSize(16777215, 44))
         self.label.setObjectName("label")
@@ -60,7 +58,7 @@ class Ui_MainWindow(QMainWindow):
         font = QtGui.QFont()
         font.setPointSize(11)
         self.pushButton_2.setFont(font)
-        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.setObjectName("pushButton_home")
         self.horizontalLayout.addWidget(self.pushButton_2, 0, QtCore.Qt.AlignmentFlag.AlignBottom)
         self.pushButton = QtWidgets.QPushButton(parent=self.MenuItems)
         font = QtGui.QFont()
@@ -96,7 +94,9 @@ class Ui_MainWindow(QMainWindow):
 
         self.pushButton_6.clicked.connect(self.nhl_clicked)
 
+        self.pushButton_5.clicked.connect(self.nba_clicked)
 
+        self.pushButton_4.clicked.connect(self.mlb_clicked)
 
 
 
@@ -105,6 +105,15 @@ class Ui_MainWindow(QMainWindow):
         self.nhl_window.show()
         self.close()
 
+    def nba_clicked(self):
+        self.nba_window = nba_home_UI.Ui_MainWindow()
+        self.nba_window.show()
+        self.close()
+
+    def mlb_clicked(self):
+        self.mlb_window = mlb_home_UI.Ui_MainWindow()
+        self.mlb_window.show()
+        self.close()
 
 
 if __name__ == "__main__":
