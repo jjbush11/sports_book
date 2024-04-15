@@ -30,7 +30,6 @@ class StartWindow(QMainWindow):
         
         user_info = self.getUserBalance(user_session_info.session_username)
         balance = user_info[2]
-        balance_string = str(balance)
 
         #Create font
         font = QFont()
@@ -67,7 +66,7 @@ class StartWindow(QMainWindow):
         mybets_button.setStyleSheet("padding: 10px 20px; background-color: Indigo; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(mybets_button)
 
-        balance_button = QPushButton("Balance: $" + balance_string)
+        balance_button = QPushButton(f"Balance: $ {balance:.2f}")
         balance_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(balance_button)
 
