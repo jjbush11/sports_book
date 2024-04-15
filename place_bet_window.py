@@ -69,19 +69,6 @@ class PlaceBetInputWindow(QWidget):
                         settled=0
                     )
 
-                    # Add bet to live bets so its displayed right away
-                    live_bet = []
-                    live_bet.append('NA')
-                    live_bet.append('NA')
-                    live_bet.append('NA')
-                    live_bet.append(self.team)
-                    live_bet.append(self.odds)
-                    live_bet.append(wager)
-                    live_bet.append('Return Pending')
-                    live_bet.append('Pending')
-                    # Add to global list
-                    session_live_bets.append(live_bet)
-
                     # Verify new bet is added
                     if new_bet == 0:
                         # If bet is placed, subtract funds from user

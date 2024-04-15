@@ -89,7 +89,7 @@ class Ui_MainWindow(QMainWindow):
                     self.moneyline_away = QtWidgets.QPushButton(parent=self.gamebox)
                     self.moneyline_away.setObjectName("moneyline_away")
                     # call button function to get individual game data
-                    self.moneyline_home.clicked.connect(partial(self.place_bet_away_games, game))
+                    self.moneyline_away.clicked.connect(partial(self.place_bet_away_games, game))
                     self.horizontalLayout_2.addWidget(self.moneyline_away)
                     self.moneyline_away.setText(f"{game[3]}: {game[4]}")
                 else:
