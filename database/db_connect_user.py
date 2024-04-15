@@ -76,7 +76,7 @@ class ConnectDbUser:
                 return True
         return False
 
-    def add_new_user(self, username, password, balance=20, active_bets=None, resolved_bets=None) -> int:
+    def add_new_user(self, username, password, balance=100) -> int:
         """
         :param username: str
         :param password: str
