@@ -3,7 +3,7 @@ import user_session_info, home_window_UI
 from database import db_bet, db_settled_matches, db_upcoming_matches, db_connect_user
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QTableWidget, QTableWidgetItem
 from PyQt6.QtGui import QFont
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QRect
 
 db = db_connect_user.ConnectDbUser()
 db1 = db_bet.ConnectDbBet()
@@ -16,7 +16,7 @@ class StartWindow(QMainWindow):
         self.setGeometry(0, 0, 800, 600)  # Set initial geometry to cover the whole screen
         self.setCentralWidget(QWidget())  # Central widget for the layout
         self.setStyleSheet("background-color: #f0f0f0;")  # Set background color
-
+        
         self.initstartUI()
 
     #Updates users displayed balance

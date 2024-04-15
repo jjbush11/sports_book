@@ -21,12 +21,13 @@ class Ui_MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.setStyleSheet("background-color: #f0f0f0;")  # Set background color
+
 
         self.setupUi()
 
 
     def setupUi(self):
-        self.setObjectName("MainWindow")
         self.resize(925, 664)
         self.centralwidget = QtWidgets.QWidget(parent=self)
         self.centralwidget.setObjectName("centralwidget")
@@ -39,7 +40,7 @@ class Ui_MainWindow(QMainWindow):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 905, 546))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 800, 600))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -115,15 +116,10 @@ class Ui_MainWindow(QMainWindow):
         self.toolbar_box.setObjectName("toolbar_box")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.toolbar_box)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.balance_button = QtWidgets.QPushButton(parent=self.toolbar_box)
-        self.balance_button.setObjectName("balance_button")
-        self.horizontalLayout.addWidget(self.balance_button)
         self.home_button = QtWidgets.QPushButton(parent=self.toolbar_box)
         self.home_button.setObjectName("home_button")
         self.horizontalLayout.addWidget(self.home_button)
-        self.mybets_button = QtWidgets.QPushButton(parent=self.toolbar_box)
-        self.mybets_button.setObjectName("mybets_button")
-        self.horizontalLayout.addWidget(self.mybets_button)
+        self.home_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         self.verticalLayout.addWidget(self.toolbar_box)
         self.setCentralWidget(self.centralwidget)
 
@@ -157,11 +153,8 @@ class Ui_MainWindow(QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.page_title.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">MLB Home</span></p></body></html>"))
-        self.balance_button.setText(_translate("MainWindow", "{balance}"))
         self.home_button.setText(_translate("MainWindow", "Home"))
-        self.mybets_button.setText(_translate("MainWindow", "My Bets"))
 
 
 if __name__ == "__main__":

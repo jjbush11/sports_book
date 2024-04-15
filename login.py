@@ -4,7 +4,7 @@ import user_session_info
 from database import db_connect_user
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QMessageBox
-from PyQt6.QtGui import QFont
+from PyQt6.QtGui import QFont, QGuiApplication
 from PyQt6.QtCore import Qt
 import on_logon_functions
 import database.matches_to_database
