@@ -127,10 +127,20 @@ class Ui_MainWindow(QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def place_bet_home_games(self, game):
+        """
+        Shows user the window to place bet for home team
+        :param game:
+        :return:
+        """
         self.place_bet_window = PlaceBetInputWindow(user_session_info.session_username, game.id, game.home_odds, game.home)
         self.place_bet_window.show()
 
     def place_bet_away_games(self, game):
+        """
+        Shows user the window to place bet for away team
+        :param game:
+        :return:
+        """
         self.place_bet_window = PlaceBetInputWindow(user_session_info.session_username, game.id, game.away_odds, game.away)
         self.place_bet_window.show()
 

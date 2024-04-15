@@ -11,6 +11,8 @@ from database import db_upcoming_matches
 from PyQt6 import QtCore, QtGui, QtWidgets
 from place_bet_window import PlaceBetInputWindow
 
+from functools import partial
+from on_logon_functions import check_time
 
 
 class Ui_MainWindow(QMainWindow):
@@ -63,17 +65,35 @@ class Ui_MainWindow(QMainWindow):
                 self.matchup_label.setText(f"{game[0]}")
                 self.horizontalLayout_2.addWidget(self.matchup_label, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
 
-                # create moneyline button for 1st team
-                self.moneyline_home = QtWidgets.QPushButton(parent=self.gamebox)
-                self.moneyline_home.setObjectName("moneyline_home")
-                self.moneyline_home.setText(f"{game[1]}: {game[2]}")
-                self.horizontalLayout_2.addWidget(self.moneyline_home)
+                # If true the game has not started yet, so display buttons to allow user to bet on
+                if check_time(game.time):
+                    # create moneyline button for 1st team
+                    self.moneyline_home = QtWidgets.QPushButton(parent=self.gamebox)
+                    self.moneyline_home.setObjectName("moneyline_home")
+                    # call button function to get individual game data
+                    self.moneyline_home.clicked.connect(partial(self.place_bet_home_games, game))
+                    self.moneyline_home.setText(f"{game[1]}: {game[2]}")
+                    self.horizontalLayout_2.addWidget(self.moneyline_home)
 
-                # create moneyline button for 2nd team
-                self.moneyline_away = QtWidgets.QPushButton(parent=self.gamebox)
-                self.moneyline_away.setObjectName("moneyline_teamB")
-                self.horizontalLayout_2.addWidget(self.moneyline_away)
-                self.moneyline_away.setText(f"{game[3]}: {game[4]}")
+                    # create moneyline button for 2nd team
+                    self.moneyline_away = QtWidgets.QPushButton(parent=self.gamebox)
+                    self.moneyline_away.setObjectName("moneyline_away")
+                    # call button function to get individual game data
+                    self.moneyline_away.clicked.connect(partial(self.place_bet_away_games, game))
+                    self.horizontalLayout_2.addWidget(self.moneyline_away)
+                    self.moneyline_away.setText(f"{game[3]}: {game[4]}")
+                else:
+                    # create moneyline button for 1st team
+                    self.moneyline_home = QtWidgets.QLabel(parent=self.gamebox)
+                    self.moneyline_home.setObjectName("moneyline_home")
+                    self.moneyline_home.setText(f"{game[1]}: {game[2]}")
+                    self.horizontalLayout_2.addWidget(self.moneyline_home)
+
+                    # create moneyline button for 2nd team
+                    self.moneyline_away = QtWidgets.QLabel(parent=self.gamebox)
+                    self.moneyline_away.setObjectName("moneyline_away")
+                    self.horizontalLayout_2.addWidget(self.moneyline_away)
+                    self.moneyline_away.setText(f"{game[3]}: {game[4]}")
 
                 # add the gamebox to the scroll area
                 self.verticalLayout_2.addWidget(self.gamebox)
@@ -106,19 +126,28 @@ class Ui_MainWindow(QMainWindow):
         self.retranslateUi(self)
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def home_button_clicked(self):
-        self.home_window = home_window_UI.Ui_MainWindow()
-        self.home_window.show()
-        self.close()
-
-
     def place_bet_home_games(self, game):
+        """
+        Shows user the window to place bet for home team
+        :param game:
+        :return:
+        """
         self.place_bet_window = PlaceBetInputWindow(user_session_info.session_username, game.id, game.home_odds, game.home)
         self.place_bet_window.show()
 
     def place_bet_away_games(self, game):
+        """
+        Shows user the window to place bet for away team
+        :param game:
+        :return:
+        """
         self.place_bet_window = PlaceBetInputWindow(user_session_info.session_username, game.id, game.away_odds, game.away)
         self.place_bet_window.show()
+
+    def home_button_clicked(self):
+        self.home_window = home_window_UI.Ui_MainWindow()
+        self.home_window.show()
+        self.close()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
