@@ -8,5 +8,6 @@
 
 ## Instructions:
 1. Download necessary packages (pip install)
-2. Run file `login.py`
-3. You must sign-up to create an account and then you may login with those credentials
+2. Connect to uvm network
+3. Run file `login.py`
+4. You must sign-up to create an account and then you may login with those credentials
