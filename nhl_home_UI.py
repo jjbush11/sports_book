@@ -157,7 +157,6 @@ class Ui_MainWindow(QMainWindow):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         self.page_title.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt; font-weight:700;\">NHL Home</span></p></body></html>"))
-        self.matchup_label.setText(_translate("MainWindow", "Team A vs Team B"))
         self.home_button.setText(_translate("MainWindow", "Home"))
 
 
