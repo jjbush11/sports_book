@@ -1,5 +1,5 @@
 import sys
-import login, user_session_info, home_window_UI
+import user_session_info, home_window_UI
 from database import db_bet, db_settled_matches, db_upcoming_matches, db_connect_user
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVBoxLayout, QLabel, QLineEdit, QHBoxLayout, QGridLayout, QTableWidget, QTableWidgetItem
 from PyQt6.QtGui import QFont
