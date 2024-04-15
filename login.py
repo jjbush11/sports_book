@@ -1,3 +1,4 @@
+from database import web_scraper
 import home_window_UI
 import user_session_info
 from database import db_connect_user
@@ -6,6 +7,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QVB
 from PyQt6.QtGui import QFont
 from PyQt6.QtCore import Qt
 import on_logon_functions
+import database.matches_to_database
 
 class StartWindow(QMainWindow):
     def __init__(self):
@@ -132,6 +134,7 @@ class LoginWindow(QMainWindow):
             self.close()
         else:
             QMessageBox.warning(self, 'Error', 'Error: User credentials not found in database, please check your username and password and try again')
+
 
 class SignInWindow(QMainWindow):
     def __init__(self):

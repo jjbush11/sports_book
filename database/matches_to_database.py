@@ -1,7 +1,20 @@
-import web_scraper
-import datetime
-from db_upcoming_matches import ConnectDbUpcomingMatch
-from db_settled_matches import ConnectDbSettledMatch
+from .web_scraper import grab_scores, grab_moneylines
+from datetime import datetime
+from .db_upcoming_matches import ConnectDbUpcomingMatch
+from .db_settled_matches import ConnectDbSettledMatch
+
+# Scores URLs
+NBA_SCORES_URL = (f'https://www.basketball-reference.com/boxscores/'
+           f'?year={datetime.now().year}&month={datetime.now().month}&day={datetime.now().day - 1}')
+NHL_SCORES_URL = (f'https://www.hockey-reference.com/boxscores/'
+           f'?year={datetime.now().year}&month={datetime.now().month}&day={datetime.now().day - 1}')
+MLB_SCORES_URL = (f'https://www.baseball-reference.com/boxes/'
+           f'?year={datetime.now().year}&month={datetime.now().month}&day={datetime.now().day - 1}')
+
+# Moneyline URLs
+NBA_MONEYLINE_URL = ("https://vegas-odds.com/nba/odds/")
+NHL_MONEYLINE_URL = ("https://vegas-odds.com/nhl/odds/")
+MLB_MONEYLINE_URL = ("https://vegas-odds.com/mlb/odds/")
 
 # Constant definitions
 AWAY_TEAM_COL = 0
@@ -55,9 +68,9 @@ def upload_current_matches() -> None:
             )
 
     # Grab the matchups nested list, and connect to database.
-    nhl_odds = web_scraper.grab_moneylines(web_scraper.NHL_MONEYLINE_URL)
-    mlb_odds = web_scraper.grab_moneylines(web_scraper.MLB_MONEYLINE_URL)
-    nba_odds = web_scraper.grab_moneylines(web_scraper.NBA_MONEYLINE_URL)
+    nhl_odds = grab_moneylines(NHL_MONEYLINE_URL)
+    mlb_odds = grab_moneylines(MLB_MONEYLINE_URL)
+    nba_odds = grab_moneylines(NBA_MONEYLINE_URL)
     db = ConnectDbUpcomingMatch()
     db.remove_all()
 
@@ -77,7 +90,7 @@ def upload_settled_matches():
             road_team = games_list[AWAY_TEAM_COL][game]
             road_score = games_list[HOME_SCORES_COL][game]
             home_score = games_list[AWAY_SCORES_COL][game]
-            current_time = datetime.datetime.now()
+            current_time = datetime.now()
             month = MONTHS_INDEX[current_time.month - 1]
             day = current_time.day - 1
             date = month + " " + str(day)
@@ -94,9 +107,9 @@ def upload_settled_matches():
             )
 
     # Get scores, connect to database
-    nhl_scores = web_scraper.grab_scores(web_scraper.NHL_SCORES_URL)
-    mlb_scores = web_scraper.grab_scores(web_scraper.MLB_SCORES_URL)
-    nba_scores = web_scraper.grab_scores(web_scraper.NBA_SCORES_URL)
+    nhl_scores = grab_scores(NHL_SCORES_URL)
+    mlb_scores = grab_scores(MLB_SCORES_URL)
+    nba_scores = grab_scores(NBA_SCORES_URL)
     db = ConnectDbSettledMatch()
 
     # Upload these scores
