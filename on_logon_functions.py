@@ -1,6 +1,7 @@
 # Logon behavior functions file
 from database.db_connect_user import ConnectDbUser
-from database.matches_to_database import main
+from database import web_scraper
+from database import matches_to_database
 from database.db_bet import ConnectDbBet
 from database.db_settled_matches import ConnectDbSettledMatch
 from database.db_connect_user import ConnectDbUser
@@ -18,7 +19,7 @@ def check_balance(username: str) -> None:
 
 # On startup: update the current matchups
 def update_tables() -> None:
-    main()
+    matches_to_database.main()
 
 
 def check_if_settled_and_pay(username: str) -> None:
@@ -81,6 +82,11 @@ def check_if_settled_and_pay(username: str) -> None:
 
 # Check the current time. Compare this to an input match time.
 def check_time(match_time: str) -> bool:
+    """
+    Takes time of match from database and checks if thats past the current time
+    :param match_time: str
+    :return: bool, true if time has not happened yet
+    """
     # Get the minute and hour of current & game times
     current_hour = int(datetime.datetime.now().strftime("%H"))
     current_minute = int(datetime.datetime.now().strftime("%M"))
@@ -94,3 +100,5 @@ def check_time(match_time: str) -> bool:
         if current_minute > match_minute:
             return False
     return True
+
+update_tables()
