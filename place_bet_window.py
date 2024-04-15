@@ -2,7 +2,6 @@ import sys
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QVBoxLayout, QPushButton, QMessageBox
 from database.db_bet import ConnectDbBet
 from database.db_connect_user import ConnectDbUser
-from user_session_info import session_live_bets
 
 class PlaceBetInputWindow(QWidget):
 
