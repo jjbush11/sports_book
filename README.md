@@ -1,6 +1,6 @@
 # sports_book
 ## Necessary packages:
- - sqlalchemy
+- sqlalchemy
 - PyQt6
 - pyqt6-tools
 - mysql-connector-python
