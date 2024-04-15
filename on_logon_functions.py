@@ -7,6 +7,8 @@ from database.db_settled_matches import ConnectDbSettledMatch
 from database.db_connect_user import ConnectDbUser
 import datetime
 
+MONTHS_INDEX = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
 
 # Check the user's balance. Set it to $5 if it is less than $5.
 def check_balance(username: str) -> None:
@@ -81,24 +83,38 @@ def check_if_settled_and_pay(username: str) -> None:
 
 
 # Check the current time. Compare this to an input match time.
-def check_time(match_time: str) -> bool:
+def check_time(match_time: str, month_day: str) -> bool:
     """
     Takes time of match from database and checks if thats past the current time
     :param match_time: str
     :return: bool, true if time has not happened yet
     """
-    # Get the minute and hour of current & game times
+
+    match_month = MONTHS_INDEX.index(month_day.split()[0]) + 1
+    match_day = int(month_day.split()[1])
+
+    # Get the month, day, minute and hour of current & game times
+    current_month = int(datetime.datetime.now().strftime("%m"))
+    current_day = int(datetime.datetime.now().strftime("%d"))
     current_hour = int(datetime.datetime.now().strftime("%H"))
     current_minute = int(datetime.datetime.now().strftime("%M"))
     match_hour = int(match_time[:match_time.find(":")])
     match_minute = int(match_time[match_time.find(":") + 1:])
 
     # If the current time is later than the given time, return False
-    if current_hour > match_hour:
+    if current_month > match_month:
         return False
-    elif current_hour == match_hour:
-        if current_minute > match_minute:
+    elif current_month < match_month:
+        return True
+    else:
+        if current_day > match_day:
             return False
+        elif current_day < match_day:
+            return True
+        else:
+            if current_hour > match_hour:
+                return False
+            elif current_hour == match_hour:
+                if current_minute > match_minute:
+                    return False
     return True
-
-update_tables()
