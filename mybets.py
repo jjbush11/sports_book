@@ -124,64 +124,74 @@ class StartWindow(QMainWindow):
 
 
     def get_past_bets(self):
-        bets = db1.get_all_settled_bets_by_user(user_session_info.session_username)
-        bets_list = []
-        overall_list = []
 
-        for bet in bets:
-            settled_match = db2.get_settled_matches_by_id(bet[1])
-            settled_match = list(settled_match)
-            bet = list(bet)
-            bets_list.append(bet + settled_match)
+        try:
+            bets = db1.get_all_settled_bets_by_user(user_session_info.session_username)
+            bets_list = []
+            overall_list = []
+
+            for bet in bets:
+                settled_match = db2.get_settled_matches_by_id(bet[1])
+                settled_match = list(settled_match)
+                bet = list(bet)
+                bets_list.append(bet + settled_match)
+        except:
+            print("User has no settled bets")
         
-        #Modifying bet list for proper display in table
-        for bet in bets_list:
-            bet = list(map(str, bet))
-            sorted_bets_list = []
-            sorted_bets_list.append(bet[14])
-            sorted_bets_list.append(bet[12])
-            sorted_bets_list.append(bet[10])
-            sorted_bets_list.append(bet[13] + "-" + bet[11])
-            sorted_bets_list.append(bet[4])
-            sorted_bets_list.append(bet[3])
-            sorted_bets_list.append(bet[5])
-            sorted_bets_list.append(bet[6])
-            if (bet[2]):
-                sorted_bets_list.append("Bet won")
-            else:
-                sorted_bets_list.append("Bet lost")
-            overall_list.append(sorted_bets_list)
+        else:
 
-        return overall_list
+            #Modifying bet list for proper display in table
+            for bet in bets_list:
+                bet = list(map(str, bet))
+                sorted_bets_list = []
+                sorted_bets_list.append(bet[14])
+                sorted_bets_list.append(bet[12])
+                sorted_bets_list.append(bet[10])
+                sorted_bets_list.append(bet[13] + "-" + bet[11])
+                sorted_bets_list.append(bet[4])
+                sorted_bets_list.append(bet[3])
+                sorted_bets_list.append(bet[5])
+                sorted_bets_list.append(bet[6])
+                if (bet[2]):
+                    sorted_bets_list.append("Bet won")
+                else:
+                    sorted_bets_list.append("Bet lost")
+                overall_list.append(sorted_bets_list)
+
+            return overall_list
 
     def get_active_bets(self):
-        bets = db1.get_all_active_bets_by_user(user_session_info.session_username)
-        bets_list = []
-        overall_list = []
+        try:
+            bets = db1.get_all_active_bets_by_user(user_session_info.session_username)
+            bets_list = []
+            overall_list = []
 
-        for bet in bets:
-            active_match = db3.get_upcoming_matches_by_id(bet[1])
-            active_match = list(active_match)
-            bet = list(bet)
-            bets_list.append(bet + active_match)
+            for bet in bets:
+                active_match = db3.get_upcoming_matches_by_id(bet[1])
+                active_match = list(active_match)
+                bet = list(bet)
+                bets_list.append(bet + active_match)
+            
+        except:
+            print("User has no settled bets")
         
-        
-        #Modifying bet list for proper display in table
-        for bet in bets_list:
-            bet = list(map(str, bet))
-            sorted_bets_list = []
-            sorted_bets_list.append(bet[16])
-            sorted_bets_list.append(bet[10])
-            sorted_bets_list.append(bet[12])
-            sorted_bets_list.append(bet[4])
-            sorted_bets_list.append(bet[3])
-            sorted_bets_list.append(bet[5])
-            sorted_bets_list.append(bet[6])
-            sorted_bets_list.append("Pending")
+        else:
+            #Modifying bet list for proper display in table
+            for bet in bets_list:
+                bet = list(map(str, bet))
+                sorted_bets_list = []
+                sorted_bets_list.append(bet[16])
+                sorted_bets_list.append(bet[10])
+                sorted_bets_list.append(bet[12])
+                sorted_bets_list.append(bet[4])
+                sorted_bets_list.append(bet[3])
+                sorted_bets_list.append(bet[5])
+                sorted_bets_list.append(bet[6])
+                sorted_bets_list.append("Pending")
 
-            overall_list.append(sorted_bets_list)
+                overall_list.append(sorted_bets_list)
 
-        return overall_list
+            return overall_list
 
     #Functions to populate tables
     def add_rows_table1(self, position, row):
