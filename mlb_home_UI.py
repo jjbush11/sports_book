@@ -14,6 +14,7 @@ import user_session_info
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 from functools import partial
+from on_logon_functions import check_time
 
 
 class Ui_MainWindow(QMainWindow):
@@ -66,21 +67,35 @@ class Ui_MainWindow(QMainWindow):
                 self.matchup_label.setText(f"{game[0]}")
                 self.horizontalLayout_2.addWidget(self.matchup_label, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
 
-                # create moneyline button for 1st team
-                self.moneyline_home = QtWidgets.QPushButton(parent=self.gamebox)
-                self.moneyline_home.setObjectName("moneyline_home")
-                # call button function to get individual game data
-                self.moneyline_home.clicked.connect(partial(self.place_bet_home_games, game))
-                self.moneyline_home.setText(f"{game[1]}: {game[2]}")
-                self.horizontalLayout_2.addWidget(self.moneyline_home)
+                # If true the game has not started yet, so display buttons to allow user to bet on
+                if check_time(game.time):
+                    # create moneyline button for 1st team
+                    self.moneyline_home = QtWidgets.QPushButton(parent=self.gamebox)
+                    self.moneyline_home.setObjectName("moneyline_home")
+                    # call button function to get individual game data
+                    self.moneyline_home.clicked.connect(partial(self.place_bet_home_games, game))
+                    self.moneyline_home.setText(f"{game[1]}: {game[2]}")
+                    self.horizontalLayout_2.addWidget(self.moneyline_home)
 
-                # create moneyline button for 2nd team
-                self.moneyline_away = QtWidgets.QPushButton(parent=self.gamebox)
-                self.moneyline_away.setObjectName("moneyline_away")
-                # call button function to get individual game data
-                self.moneyline_away.clicked.connect(partial(self.place_bet_away_games, game))
-                self.horizontalLayout_2.addWidget(self.moneyline_away)
-                self.moneyline_away.setText(f"{game[3]}: {game[4]}")
+                    # create moneyline button for 2nd team
+                    self.moneyline_away = QtWidgets.QPushButton(parent=self.gamebox)
+                    self.moneyline_away.setObjectName("moneyline_away")
+                    # call button function to get individual game data
+                    self.moneyline_away.clicked.connect(partial(self.place_bet_away_games, game))
+                    self.horizontalLayout_2.addWidget(self.moneyline_away)
+                    self.moneyline_away.setText(f"{game[3]}: {game[4]}")
+                else:
+                    # create moneyline button for 1st team
+                    self.moneyline_home = QtWidgets.QLabel(parent=self.gamebox)
+                    self.moneyline_home.setObjectName("moneyline_home")
+                    self.moneyline_home.setText(f"{game[1]}: {game[2]}")
+                    self.horizontalLayout_2.addWidget(self.moneyline_home)
+
+                    # create moneyline button for 2nd team
+                    self.moneyline_away = QtWidgets.QLabel(parent=self.gamebox)
+                    self.moneyline_away.setObjectName("moneyline_away")
+                    self.horizontalLayout_2.addWidget(self.moneyline_away)
+                    self.moneyline_away.setText(f"{game[3]}: {game[4]}")
 
                 # add the gamebox to the scroll area
                 self.verticalLayout_2.addWidget(self.gamebox)

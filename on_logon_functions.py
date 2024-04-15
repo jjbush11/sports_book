@@ -81,6 +81,11 @@ def check_if_settled_and_pay(username: str) -> None:
 
 # Check the current time. Compare this to an input match time.
 def check_time(match_time: str) -> bool:
+    """
+    Takes time of match from database and checks if thats past the current time
+    :param match_time: str
+    :return: bool, true if time has not happened yet
+    """
     # Get the minute and hour of current & game times
     current_hour = int(datetime.datetime.now().strftime("%H"))
     current_minute = int(datetime.datetime.now().strftime("%M"))
