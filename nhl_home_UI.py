@@ -75,7 +75,7 @@ class Ui_MainWindow(QMainWindow):
                 self.horizontalLayout_2.addWidget(self.matchup_label_date, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
 
                 # If true the game has not started yet, so display buttons to allow user to bet on
-                if check_time(game.time):
+                if check_time(game.time, game.date):
                     # create moneyline button for 1st team
                     self.moneyline_home = QtWidgets.QPushButton(parent=self.gamebox)
                     self.moneyline_home.setObjectName("moneyline_home")
