@@ -29,7 +29,6 @@ class Ui_MainWindow(QMainWindow):
 
         user_info = self.getUserBalance(user_session_info.session_username)
         balance = user_info[2]
-        balance_string = str(balance)
 
         font = QFont()
         font.setPointSize(25)
@@ -50,7 +49,7 @@ class Ui_MainWindow(QMainWindow):
         navbar_layout.addWidget(mybets_button)
         mybets_button.clicked.connect(self.mybets_click)
 
-        balance_button = QPushButton("Balance: $" + balance_string)
+        balance_button = QPushButton(f"Balance: $ {balance:.2f}")
         balance_button.setStyleSheet("padding: 10px 20px; background-color: BlueViolet; color: white; border: none; border-radius: 5px;")
         navbar_layout.addWidget(balance_button)
 
@@ -108,6 +107,7 @@ class Ui_MainWindow(QMainWindow):
     #Routes to mybets page
     def mybets_click(self):
         self.mybets_window = mybets.StartWindow()
+        self.mybets_window.repaint()
         self.mybets_window.show()
         self.close()
 

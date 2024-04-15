@@ -107,6 +107,7 @@ class Ui_MainWindow(QMainWindow):
                 self.verticalLayout.addWidget(self.scrollArea)
 
 
+        # Nav bar 
         self.toolbar_box = QtWidgets.QGroupBox(parent=self.centralwidget)
         self.toolbar_box.setMinimumSize(QtCore.QSize(0, 60))
         self.toolbar_box.setMaximumSize(QtCore.QSize(16777215, 60))
