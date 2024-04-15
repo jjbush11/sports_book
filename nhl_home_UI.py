@@ -65,8 +65,14 @@ class Ui_MainWindow(QMainWindow):
                 # title of the matchup
                 self.matchup_label = QtWidgets.QLabel(parent=self.gamebox)
                 self.matchup_label.setObjectName("matchup_label")
-                self.matchup_label.setText(f"{game[0]}")
+                self.matchup_label.setText(str(game.away) + " @ " + str(game.home))
                 self.horizontalLayout_2.addWidget(self.matchup_label, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
+
+                # Date and time
+                self.matchup_label_date = QtWidgets.QLabel(parent=self.gamebox)
+                self.matchup_label_date.setObjectName("matchup_label")
+                self.matchup_label_date.setText(str(game.date) + " @ " + str(game.time))
+                self.horizontalLayout_2.addWidget(self.matchup_label_date, 0, QtCore.Qt.AlignmentFlag.AlignHCenter)
 
                 # If true the game has not started yet, so display buttons to allow user to bet on
                 if check_time(game.time):
