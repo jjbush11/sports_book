@@ -112,15 +112,15 @@ class StartWindow(QMainWindow):
         
 
         #Create rows and populate table
-
-        #Creating rows for settled matches
-        for i in range(len(past_bets)):
-            self.add_rows_table1(i, past_bets[i])
-
-        #Creating rows for active matches
-        for i in range(len(current_bets)):
-            self.add_rows_table2(i, current_bets[i])
-
+        if (past_bets is not None):
+            #Creating rows for settled matches
+            for i in range(len(past_bets)):
+                self.add_rows_table1(i, past_bets[i])
+        
+        if (current_bets is not None):
+            #Creating rows for active matches
+            for i in range(len(current_bets)):
+                self.add_rows_table2(i, current_bets[i])
 
 
     def get_past_bets(self):
