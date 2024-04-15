@@ -8,5 +8,5 @@
 
 ## Instructions:
 1. Download necessary packages (pip install)
-2. Run file 'login.py'
+2. Run file `login.py`
 3. You must sign-up to create and account and then you may login with those credentials
