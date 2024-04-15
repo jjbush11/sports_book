@@ -1,3 +1,0 @@
-sqlalchemy
-PyQt6
-pyqt6-tools
