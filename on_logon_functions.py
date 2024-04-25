@@ -28,7 +28,6 @@ def check_if_settled_and_pay(username: str) -> None:
     # For all user bets that are not paid out:
     # Check if match ID is in settled matches:
     # If it's there, and mark the bet as settled and pay out if they won.
-
     # Connect to databases
     db_bets = ConnectDbBet()
     db_settled_matches = ConnectDbSettledMatch()
@@ -68,7 +67,6 @@ def check_if_settled_and_pay(username: str) -> None:
                     win = 0
 
             # If bet won update balance
-            print(win)
             if win:
                 print("Updating balance")
                 current_balance = user.balance

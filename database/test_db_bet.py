@@ -4,13 +4,25 @@ db = ConnectDbBet()
 
 # Example of adding bet to db
 # new_bet = db.add_new_bet(
-#     username='newMan',
-#     par_id="fakeID343",
+#     username='jjbush',
+#     par_id="Arizona CoyotesEdmonton OilersApr 17",
 #     win=0,
 #     odds=300,
-#     wager=10,
-#     settled=0
+#     team= "Arizona Coyotes",
+#     wager=10
 # )
+
+bets = db.get_all_active_bets_by_user('jjbush')
+bets_list = []
+overall_list = []
+print("ACTIVE BETS")
+for bet in bets:
+    print(bet)
+    # active_match = db3.get_upcoming_matches_by_id(bet[1])
+    # active_match = list(active_match)
+    # bet = list(bet)
+    # bets_list.append(bet + active_match)
+
 # if new_bet == 1:
 #     print("bet already exists.")
 # elif new_bet == 2:

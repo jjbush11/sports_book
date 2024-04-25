@@ -131,6 +131,8 @@ class StartWindow(QMainWindow):
 
             for bet in bets:
                 settled_match = db2.get_settled_matches_by_id(bet[1])
+                if settled_match is None:
+                    continue
                 settled_match = list(settled_match)
                 bet = list(bet)
                 bets_list.append(bet + settled_match)
@@ -161,18 +163,21 @@ class StartWindow(QMainWindow):
 
     def get_active_bets(self):
         try:
+            print("USER: " +str(user_session_info.session_username))
             bets = db1.get_all_active_bets_by_user(user_session_info.session_username)
             bets_list = []
             overall_list = []
-
             for bet in bets:
-                active_match = db3.get_upcoming_matches_by_id(bet[1])
+                active_match = db3.get_upcoming_matches_by_id(bet.id)
+                if active_match is None:
+                    continue
                 active_match = list(active_match)
                 bet = list(bet)
                 bets_list.append(bet + active_match)
             
-        except:
-            print("User has no settled bets")
+        except Exception as e:
+            print(e)
+            print("User has no active bets")
         
         else:
             #Modifying bet list for proper display in table

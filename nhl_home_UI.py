@@ -52,6 +52,8 @@ class Ui_MainWindow(QMainWindow):
         # Create game objects dynamically
         for game in db.get_all_matches():
             if game[7] == 'NHL':
+                if game.away == "Away Goals":
+                    continue
 
                 # create gamebox object. this is where game contents will be saved
                 self.gamebox = QtWidgets.QGroupBox(parent=self.scrollAreaWidgetContents_2)

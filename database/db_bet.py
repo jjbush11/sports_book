@@ -86,6 +86,7 @@ class ConnectDbBet:
         :param par_id:
         :param win:
         :param odds:
+        :param team:
         :param wager:
         :param settled:
         :return: returns 1 if bet already exists, 2 if addition fials and 0 if successful
