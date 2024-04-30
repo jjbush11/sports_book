@@ -16,6 +16,107 @@ NBA_MONEYLINE_URL = ("https://vegas-odds.com/nba/odds/")
 NHL_MONEYLINE_URL = ("https://vegas-odds.com/nhl/odds/")
 MLB_MONEYLINE_URL = ("https://vegas-odds.com/mlb/odds/")
 
+# Teams
+mlb_teams = {
+    "Arizona": "Arizona Diamondbacks",
+    "Atlanta": "Atlanta Braves",
+    "Baltimore": "Baltimore Orioles",
+    "Boston": "Boston Red Sox",
+    "Chicago Cubs": "Chicago Cubs",
+    "Chicago White Sox": "Chicago White Sox",
+    "Cincinnati": "Cincinnati Reds",
+    "Cleveland": "Cleveland Guardians",
+    "Colorado": "Colorado Rockies",
+    "Detroit": "Detroit Tigers",
+    "Houston": "Houston Astros",
+    "Kansas City": "Kansas City Royals",
+    "Los Angeles Angels": "Los Angeles Angels",
+    "Los Angeles Dodgers": "Los Angeles Dodgers",
+    "Miami": "Miami Marlins",
+    "Milwaukee": "Milwaukee Brewers",
+    "Minnesota": "Minnesota Twins",
+    "New York Mets": "New York Mets",
+    "New York Yankees": "New York Yankees",
+    "Oakland": "Oakland Athletics",
+    "Philadelphia": "Philadelphia Phillies",
+    "Pittsburgh": "Pittsburgh Pirates",
+    "San Diego": "San Diego Padres",
+    "San Francisco": "San Francisco Giants",
+    "Seattle": "Seattle Mariners",
+    "St. Louis": "St. Louis Cardinals",
+    "Tampa Bay": "Tampa Bay Rays",
+    "Texas": "Texas Rangers",
+    "Toronto": "Toronto Blue Jays",
+    "Washington": "Washington Nationals"
+}
+
+nba_teams = {
+    "Atlanta": "Atlanta Hawks",
+    "Boston": "Boston Celtics",
+    "Brooklyn": "Brooklyn Nets",
+    "Charlotte": "Charlotte Hornets",
+    "Chicago": "Chicago Bulls",
+    "Cleveland": "Cleveland Cavaliers",
+    "Dallas": "Dallas Mavericks",
+    "Denver": "Denver Nuggets",
+    "Detroit": "Detroit Pistons",
+    "Golden State": "Golden State Warriors",
+    "Houston": "Houston Rockets",
+    "Indiana": "Indiana Pacers",
+    "LA Clippers": "LA Clippers",
+    "LA Lakers": "Los Angeles Lakers",
+    "Memphis": "Memphis Grizzlies",
+    "Miami": "Miami Heat",
+    "Milwaukee": "Milwaukee Bucks",
+    "Minnesota": "Minnesota Timberwolves",
+    "New Orleans": "New Orleans Pelicans",
+    "New York": "New York Knicks",
+    "Oklahoma City": "Oklahoma City Thunder",
+    "Orlando": "Orlando Magic",
+    "Philadelphia": "Philadelphia 76ers",
+    "Phoenix": "Phoenix Suns",
+    "Portland": "Portland Trail Blazers",
+    "Sacramento": "Sacramento Kings",
+    "San Antonio": "San Antonio Spurs",
+    "Toronto": "Toronto Raptors",
+    "Utah": "Utah Jazz",
+    "Washington": "Washington Wizards"
+}
+nhl_teams = {
+    "Anaheim": "Anaheim Ducks",
+    "Arizona": "Arizona Coyotes",
+    "Boston": "Boston Bruins",
+    "Buffalo": "Buffalo Sabres",
+    "Calgary": "Calgary Flames",
+    "Carolina": "Carolina Hurricanes",
+    "Chicago": "Chicago Blackhawks",
+    "Colorado": "Colorado Avalanche",
+    "Columbus": "Columbus Blue Jackets",
+    "Dallas": "Dallas Stars",
+    "Detroit": "Detroit Red Wings",
+    "Edmonton": "Edmonton Oilers",
+    "Florida": "Florida Panthers",
+    "Los Angeles": "Los Angeles Kings",
+    "Minnesota": "Minnesota Wild",
+    "Montreal": "Montreal Canadiens",
+    "Nashville": "Nashville Predators",
+    "New Jersey": "New Jersey Devils",
+    "NY Islanders": "New York Islanders",
+    "NY Rangers": "New York Rangers",
+    "Ottawa": "Ottawa Senators",
+    "Philadelphia": "Philadelphia Flyers",
+    "Pittsburgh": "Pittsburgh Penguins",
+    "San Jose": "San Jose Sharks",
+    "Seattle": "Seattle Kraken",
+    "St. Louis": "St. Louis Blues",
+    "Tampa Bay": "Tampa Bay Lightning",
+    "Toronto": "Toronto Maple Leafs",
+    "Vancouver": "Vancouver Canucks",
+    "Vegas": "Vegas Golden Knights",
+    "Washington": "Washington Capitals",
+    "Winnipeg": "Winnipeg Jets"
+}
+
 
 def main() -> int:
     return 0
@@ -50,9 +151,33 @@ def grab_scores(url: str) -> [[]]:
         away_team = div.find("table").find("tbody").find_all("tr")[0].find_all("td")
         home_team = div.find("table").find("tbody").find_all("tr")[1].find_all("td")
 
+        # Get team names
+        away_team_name = str(away_team[0].find("a").get_text())
+        home_team_name = str(home_team[0].find("a").get_text())
+
+        # Gets all the team names in the same format so that the database ID is consistent
+        if url == NBA_SCORES_URL:
+            for key, value in nba_teams.items():
+                if key.lower() in away_team_name.lower():
+                    away_team_name = value
+                if key.lower() in home_team_name.lower():
+                    home_team_name = value
+        elif url == NHL_SCORES_URL:
+            for key, value in nhl_teams.items():
+                if key.lower() in away_team_name.lower():
+                    away_team_name = value
+                if key.lower() in home_team_name.lower():
+                    home_team_name = value
+        elif url == MLB_SCORES_URL:
+            for key, value in mlb_teams.items():
+                if key.lower() in away_team_name.lower():
+                    away_team_name = value
+                if key.lower() in home_team_name.lower():
+                    home_team_name = value
+
         # Append team names
-        away_teams.append(away_team[0].find("a").get_text())
-        home_teams.append(home_team[0].find("a").get_text())
+        away_teams.append(away_team_name)
+        home_teams.append(home_team_name)
 
         # Append scores
         away_scores.append(int(away_team[1].get_text()))
@@ -87,9 +212,33 @@ def grab_moneylines(url: str) -> [[]]:
         away_entry = entry.find_all("tr")[0]
         home_entry = entry.find_all("tr")[1]
 
+        # Get team names
+        away_team_name = str(away_entry.find("th").get_text())
+        home_team_name = str(home_entry.find("th").get_text())
+
+        # Gets all the team names in the same format so that the database ID is consistent
+        if url == NBA_MONEYLINE_URL:
+            for key, value in nba_teams.items():
+                if key.lower() in away_team_name.lower():
+                    away_team_name = value
+                if key.lower() in home_team_name.lower():
+                    home_team_name = value
+        elif url == NHL_MONEYLINE_URL:
+            for key, value in nhl_teams.items():
+                if key.lower() in away_team_name.lower():
+                    away_team_name = value
+                if key.lower() in home_team_name.lower():
+                    home_team_name = value
+        elif url == MLB_MONEYLINE_URL:
+            for key, value in mlb_teams.items():
+                if key.lower() in away_team_name.lower():
+                    away_team_name = value
+                if key.lower() in home_team_name.lower():
+                    home_team_name = value
+
         # Get team name text
-        away_teams.append(away_entry.find("th").get_text())
-        home_teams.append(home_entry.find("th").get_text())
+        away_teams.append(away_team_name)
+        home_teams.append(home_team_name)
 
         # Get odds
         try:

@@ -98,7 +98,7 @@ def upload_settled_matches():
             # Print games, and upload them to the database
             print(road_team, ": ", road_score, " ", home_team, ": ", home_score)
             new_settled = db.add_new_settled_match(
-                par_id=f'{home_team}{road_team}{date}',
+                par_id=f'{road_team}{home_team}{date}',
                 away=road_team,
                 away_score=road_score,
                 home=home_team,
