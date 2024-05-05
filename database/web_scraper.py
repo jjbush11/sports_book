@@ -14,11 +14,11 @@ MLB_SCORES_URL = (f'https://www.baseball-reference.com/boxes/'
 # Moneyline URLs
 NBA_MONEYLINE_URL = ("https://vegas-odds.com/nba/odds/")
 NHL_MONEYLINE_URL = ("https://vegas-odds.com/nhl/odds/")
-MLB_MONEYLINE_URL = ("https://vegas-odds.com/mlb/odds/")
+MLB_MONEYLINE_URL = ("https://vegas-odds.com/mlb/odds/")  # This link is broken for now.
 
 
 def main() -> int:
-    return 0
+    grab_scores(NBA_SCORES_URL)
 
 
 # Scrape nhl web scores
@@ -93,6 +93,7 @@ def grab_moneylines(url: str) -> [[]]:
 
         # Get odds
         try:
+            odds = away_entry.find("td").get_text()
             away_odds.append(int(away_entry.find("td").get_text()))
         except ValueError:
             away_odds.append(0)
