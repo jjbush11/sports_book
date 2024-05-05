@@ -197,8 +197,12 @@ def grab_moneylines(url: str) -> [[]]:
     soup = BeautifulSoup(moneyline_page.content, "html.parser")
 
     # Get the moneyline listings. If none exist, return an empty nested list
-    moneyline_entries = soup.find_all("div", class_="table-responsive oddstablev2")[0].find("table").find_all("tbody")
-    if len(moneyline_entries) < 1:
+    try:
+        moneyline_entries = soup.find_all("div", class_="table-responsive oddstablev2")[0].find("table").find_all("tbody")
+        if len(moneyline_entries) < 1:
+            return [[]]
+    except IndexError as e:
+        print(e)
         return [[]]
 
     away_teams = list()
