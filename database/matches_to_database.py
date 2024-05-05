@@ -69,14 +69,14 @@ def upload_current_matches() -> None:
 
     # Grab the matchups nested list, and connect to database.
     nhl_odds = grab_moneylines(NHL_MONEYLINE_URL)
-    mlb_odds = grab_moneylines(MLB_MONEYLINE_URL)
+    # mlb_odds = grab_moneylines(MLB_MONEYLINE_URL)
     nba_odds = grab_moneylines(NBA_MONEYLINE_URL)
     db = ConnectDbUpcomingMatch()
     db.remove_all()
 
     # Upload games and odds to database
     scores_helper(nhl_odds, len(nhl_odds[0]), "NHL")
-    scores_helper(mlb_odds, len(mlb_odds[0]), "MLB")
+    # scores_helper(mlb_odds, len(mlb_odds[0]), "MLB")
     scores_helper(nba_odds, len(nba_odds[0]), "NBA")
 
 
@@ -108,13 +108,13 @@ def upload_settled_matches():
 
     # Get scores, connect to database
     nhl_scores = grab_scores(NHL_SCORES_URL)
-    mlb_scores = grab_scores(MLB_SCORES_URL)
+    # mlb_scores = grab_scores(MLB_SCORES_URL)
     nba_scores = grab_scores(NBA_SCORES_URL)
     db = ConnectDbSettledMatch()
 
     # Upload these scores
     scores_helper(nhl_scores, len(nhl_scores[0]), "NHL")
-    scores_helper(mlb_scores, len(mlb_scores[0]), "MLB")
+    # scores_helper(mlb_scores, len(mlb_scores[0]), "MLB")
     scores_helper(nba_scores, len(nba_scores[0]), "NBA")
 
 
