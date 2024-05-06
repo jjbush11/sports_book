@@ -153,10 +153,12 @@ class StartWindow(QMainWindow):
                 sorted_bets_list.append(bet[3])
                 sorted_bets_list.append(bet[5])
                 sorted_bets_list.append(bet[6])
-                if (bet[2]):
-                    sorted_bets_list.append("Bet won")
-                else:
-                    sorted_bets_list.append("Bet lost")
+                sorted_bets_list.append(bet[2])
+                # print(bet[2])
+                # if bet[2]:
+                #     sorted_bets_list.append("Bet won")
+                # elif not bet[2]:
+                #     sorted_bets_list.append("Bet lost")
                 overall_list.append(sorted_bets_list)
 
             return overall_list
